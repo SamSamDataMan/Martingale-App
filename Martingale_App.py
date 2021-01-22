@@ -5,6 +5,7 @@ import seaborn as sns
 import matplotlib.ticker as mtick
 from matplotlib import pyplot as plt
 
+pWin = 0.4736842
 
 def spinTilBust(trials, bankroll, startingBet):
     fig = plt.figure()
@@ -29,7 +30,7 @@ def spinTilBust(trials, bankroll, startingBet):
                 # if current bankroll is sufficient for the next wager, SPIN:
                 if balance >= bet:
                     # losing spin
-                    if random.random() > 0.4736842:
+                    if random.random() > pWin:
                         balance -= bet
                         bet = bet * 2
                         trialResult.append(balance-bankroll)
@@ -88,7 +89,7 @@ def xNumSpins(trials, bankroll, startingBet, numSpins):
                     print('New Spin #', spins,
                           'Balance =', balance,
                           'Bet =', bet)
-                    if random.random() > .4736842:
+                    if random.random() > pWin:
                         balance -= bet
                         bet = bet * 2
                         trialResult.append(balance-bankroll)
@@ -138,7 +139,7 @@ def xOrNothing(trials, bankroll, startingBet, multGoal: int):
                 # if current bankroll is sufficient for the next wager, SPIN:
                 if balance >= bet:
                     # losing spin
-                    if random.random() > 0.4736842:
+                    if random.random() > pWin:
                         balance -= bet
                         bet = bet * 2
                         trialResult.append(balance-bankroll)
