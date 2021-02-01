@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 
 pWin = 0.4736842
 
-def spinTilBust(trials, bankroll, startingBet):
+def spin_til_bust(trials, bankroll, startingBet):
     fig = plt.figure()
     # list containing lists of each trial's results.
     resultsLists = []
@@ -60,7 +60,7 @@ def spinTilBust(trials, bankroll, startingBet):
     return resultsLists
 
 
-def xNumSpins(trials, bankroll, startingBet, numSpins):
+def x_num_spins(trials, bankroll, startingBet, numSpins):
     fig = plt.figure()
     resultsLists = []
     # number of subjects to repeat trial for
@@ -116,7 +116,7 @@ def xNumSpins(trials, bankroll, startingBet, numSpins):
     return resultsLists
 
 
-def xOrNothing(trials, bankroll, startingBet, multGoal: int):
+def x_or_nothing(trials, bankroll, startingBet, multGoal: int):
     fig = plt.figure()
     # list containing lists of each trial's results.
     resultsLists = []
@@ -194,7 +194,7 @@ if option == 'Spin Until Bankrupt':
                                  ' for each martingale cycle:',
                                  5, int(bankroll/10), 10, step=5)
     # Create first chart
-    results = spinTilBust(trials, bankroll, startBet)
+    results = spin_til_bust(trials, bankroll, startBet)
 
     # Descriptives for First Plot
     spinsToBust = []
@@ -286,7 +286,7 @@ elif option == 'Fixed Number of Spins':
     numSpins = st.sidebar.slider('4. Select a number of'
                                  ' spins for each trial:',
                                  10, 10000, 100, step=10)
-    results = xNumSpins(trials, bankroll, startBet, numSpins)
+    results = x_num_spins(trials, bankroll, startBet, numSpins)
     winners = [i for i in results if i[-1] > 0]
     losers = [i for i in results if i[-1] < 0]
     x = ['Winners', 'Losers']
@@ -315,7 +315,7 @@ elif option == 'X-or-nothing':
     multGoal = st.sidebar.slider('4. Select a bankroll multiplier'
                                  ' as a goal for each trial:',
                                  2, 10, 2, step=1)
-    results = xOrNothing(trials, bankroll, startBet, multGoal)
+    results = x_or_nothing(trials, bankroll, startBet, multGoal)
     winnerResults = []
     loserResults = []
     for i in results:
