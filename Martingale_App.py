@@ -5,7 +5,9 @@ import seaborn as sns
 import matplotlib.ticker as mtick
 from matplotlib import pyplot as plt
 
-pWin = 0.4736842
+house_odds = 0.4736842
+true_flip_odds = 0.5
+pWin = house_odds
 
 def spin_til_bust(trials, bankroll, startingBet):
     fig = plt.figure()
@@ -176,9 +178,10 @@ def x_or_nothing(trials, bankroll, startingBet, multGoal: int):
 st.sidebar.title('Martingale Analysis')
 option = st.sidebar.selectbox(
      'Choose an experimental condition:',
-     ('Spin Until Bankrupt', 'Fixed Number of Spins', 'X-or-nothing'))
-
-if option == 'Spin Until Bankrupt':
+     ('Introduction', 'Spin Until Bankrupt', 'Fixed Number of Spins', 'X-or-nothing'))
+if option == 'Introduction':
+    st.header('Introduction')
+elif option == 'Spin Until Bankrupt':
     st.header("Condition: Spin Until Bankrupt")
     st.text('In this condition we allow each trial to continue\n'
             'until the entire bankroll is lost.\n')
