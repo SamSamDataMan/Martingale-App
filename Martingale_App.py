@@ -181,6 +181,32 @@ option = st.sidebar.selectbox(
      ('Introduction', 'Spin Until Bankrupt', 'Fixed Number of Spins', 'X-or-nothing'))
 if option == 'Introduction':
     st.header('Introduction')
+    st.text('Martingaling is a betting strategy which has bettors double '
+            'their wager after each \n'
+            'successive loss, returning to a fixed starting wager after each '
+            'win. The bettor \n'
+            'is attempting to win an amount equal to their starting wager '
+            'during each cycle.\n'
+            'Consider the following example showing a martingale strategy based '
+            'on a $10 starting bet:\n')
+    results = {'Spin':['Spin 1','Spin 2','Spin 3','Spin 4','Spin 5','Spin 6'], 'Martingale Cycle':['Cycle 1/ Spin 1','Cycle 2/ Spin 1','Cycle 2/ Spin 2', 'Cycle 2/ Spin 3','Cycle 3/ Spin 1','Cycle 3/ Spin 2'], 'Result':['Win','Lose','Lose','Win','Lose','Win'],'Return':['+10','-10','-20','+40','-10','+20'],'Next Action':['Start New Cycle','Double Bet','Double Bet Again','Start New Cycle','Double Bet','Start New Cycle']}
+    df = pd.DataFrame(results)
+    df.set_index('Spin', inplace=True)
+    st.write(df.head(6))
+    st.text('The profit history of the of the above results can be graphed accordingly:')
+    
+    spin = [1,2,3,4,5,6]
+    profit = [10,0,-20,20,10,30]    
+    fig = plt.figure()
+    plt.plot(profit)
+    st.write(fig)
+
+
+    st.text('Martingale strategies are profitable under theoretical '
+            'conditions, but quickly revert to \n'
+            'negative-expectation once real-world limitations '
+            '(e.g. finite bankroll, house \n'
+            'bet limits, etc...) are acccounted for.')
 elif option == 'Spin Until Bankrupt':
     st.header("Condition: Spin Until Bankrupt")
     st.text('In this condition we allow each trial to continue\n'
@@ -341,18 +367,6 @@ else:
 
 # BEGIN FAQ SECTION
 st.subheader('Frequently Asked Questions:')
-if st.checkbox('What Is Martingaling?'):
-    st.text('Martingaling is a betting strategy which has bettors double '
-            'their wager after each \n'
-            'successive loss, returning to a fixed starting wager after each '
-            'win. The bettor \n'
-            'is attempting to win an amount equal to their starting wager '
-            'during each cycle.\n'
-            'Martingale strategies are profitable under theoretical '
-            'conditions, but quickly revert to \n'
-            'negative-expectation once real-world limitations '
-            '(e.g. finite bankroll, house \n'
-            'bet limits, etc...) are acccounted for.')
 
 if st.checkbox('How do I interpret figure 1?'):
     st.text('Great question!')
