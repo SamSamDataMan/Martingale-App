@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 
 house_odds = 0.4736842
 true_flip_odds = 0.5
-pWin = house_odds
+odds = house_odds
 
 def spin_til_bust(trials, bankroll, startingBet):
     fig = plt.figure()
@@ -32,7 +32,7 @@ def spin_til_bust(trials, bankroll, startingBet):
                 # if current bankroll is sufficient for the next wager, SPIN:
                 if balance >= bet:
                     # losing spin
-                    if random.random() > pWin:
+                    if random.random() > p_win:
                         balance -= bet
                         bet = bet * 2
                         trialResult.append(balance-bankroll)
@@ -91,7 +91,7 @@ def x_num_spins(trials, bankroll, startingBet, numSpins):
                     print('New Spin #', spins,
                           'Balance =', balance,
                           'Bet =', bet)
-                    if random.random() > pWin:
+                    if random.random() > p_win:
                         balance -= bet
                         bet = bet * 2
                         trialResult.append(balance-bankroll)
@@ -141,7 +141,7 @@ def x_or_nothing(trials, bankroll, startingBet, multGoal: int):
                 # if current bankroll is sufficient for the next wager, SPIN:
                 if balance >= bet:
                     # losing spin
-                    if random.random() > pWin:
+                    if random.random() > p_win:
                         balance -= bet
                         bet = bet * 2
                         trialResult.append(balance-bankroll)
@@ -177,42 +177,109 @@ def x_or_nothing(trials, bankroll, startingBet, multGoal: int):
 # Sidebar - User Inputs
 st.sidebar.title('Martingale Analysis')
 option = st.sidebar.selectbox(
-     'Choose an experimental condition:',
-     ('Introduction', 'Spin Until Bankrupt', 'Fixed Number of Spins', 'X-or-nothing'))
+     'Choose an Experimental Condition:',
+     ('Home', 'Condition 1: Spin Until Bankrupt', 'Condition 2: Fixed Number of Spins',
+      'Condition 3: X-or-nothing', 'Conclusions'))
 
-if option == 'Introduction':
-    st.header('Introduction')
+if option == 'Condition 1: Spin Until Bankrupt' or option == 'Condition 2: Fixed Number of Spins' or option == 'Condition 3: X-or-nothing':
+    odds = st.sidebar.selectbox(
+        'Choose a Win Probability:',
+        ('House Odds', 'True Flip')
+    )
+
+if odds == "House Odds":
+    p_win = house_odds
+elif odds == "True Flip":
+    p_win = true_flip_odds
+
+if option == 'Home':
+    st.header('Introduction, User-Guide, & Methodology')
+    st.subheader('Introduction')
     st.text('Martingaling is a betting strategy which has bettors double '
             'their wager after each \n'
             'successive loss, returning to a set starting wager after each '
             'win. During each martingale\n'
-            'cycle, the bettor is attempting to win an amount equal to their starting wager. Consider\n'
+            'cycle, the bettor is attempting to win an amount equal to their'
+            ' starting wager. Consider\n'
             'the following example showing a martingale strategy based '
             'on a $10 starting bet:\n')
-    results = {'Spin':['Spin 1','Spin 2','Spin 3','Spin 4','Spin 5','Spin 6'], 'Martingale Cycle':['Cycle 1/ Spin 1','Cycle 2/ Spin 1','Cycle 2/ Spin 2', 'Cycle 2/ Spin 3','Cycle 3/ Spin 1','Cycle 3/ Spin 2'], 'Result':['Win','Lose','Lose','Win','Lose','Win'],'Return':['+10','-10','-20','+40','-10','+20'],'Next Action':['Start New Cycle','Double Bet','Double Bet Again','Start New Cycle','Double Bet','Start New Cycle']}
+    results = {'Spin': ['Spin 1', 'Spin 2', 'Spin 3', 'Spin 4', 'Spin 5',
+                        'Spin 6'],
+               'Martingale Cycle': ['Cycle 1/ Spin 1', 'Cycle 2/ Spin 1',
+                                    'Cycle 2/ Spin 2', 'Cycle 2/ Spin 3',
+                                    'Cycle 3/ Spin 1', 'Cycle 3/ Spin 2'],
+               'Result': ['Win', 'Lose', 'Lose', 'Win', 'Lose', 'Win'],
+               'Return': ['+10', '-10', '-20', '+40', '-10', '+20'],
+               'Total Profit': ['+10', '0', '-20', '+20', '+10', '+30'],
+               'Next Action': ['Start New Cycle', 'Double Bet',
+                               'Double Bet Again', 'Start New Cycle',
+                               'Double Bet', 'Start New Cycle']
+               }
     df = pd.DataFrame(results)
     df.set_index('Spin', inplace=True)
     st.write(df.head(6))
-    st.text('The profit history of the of the above results can be graphed accordingly:')
-    
-    spin = [0,1,2,3,4,5,6]
-    profit = [0,10,0,-20,20,10,30]    
-    fig = plt.figure(figsize=(7,3))
+    st.text('The profit history of the of the above results can be graphed'
+            'accordingly:')
+
+    spin = [0, 1, 2, 3, 4, 5, 6]
+    profit = [0, 10, 0, -20, 20, 10, 30]
+    fig = plt.figure(figsize=(7, 3))
     plt.xlabel('Spin')
     plt.ylabel('Profit ($)')
-    plt.vlines(1,-20,30,linestyles='--',colors='green',label="Start New Cycle")
-    plt.vlines(4,-20,30,linestyles='--',colors='green')
-    plt.vlines(6,-20,30,linestyles='--',colors='green')
+    plt.vlines(1, -20, 30, linestyles='--', colors='green',
+               label="Start New Cycle")
+    plt.vlines(4, -20, 30, linestyles='--', colors='green')
+    plt.vlines(6, -20, 30, linestyles='--', colors='green')
     plt.legend(loc=2)
     plt.plot(profit)
     st.write(fig)
 
+    st.header('User Guide')
+    st.subheader('Running Your Martingale Experiment:')
+    st.text('Within the left sidebar, use the dropdown menu to select among the experimental\n'
+            'conditions described below. Within each condition, you will find various sliders\n'
+            'and dropdowns representing inputs into the experiment. In each experimental\n'
+            'condition, users will be asked to select:')
+    st.subheader('Win Probability')
+    st.text('This represents the probability of winning a given hand/ spin. "House Odds"\n'
+            'represents a 47.3% chance of winning a given hand/ spin, roughly the same\n'
+            'as a red/black bet at a casino roulette wheel. "True Flip" odds represent\n'
+            'a 50% chance of success, as one would expect to encounter gambling in a fair\n'
+            'game among friends.\n')
+    st.subheader('Number of Trials')
+    st.text('This slider allows users to choose the number of participants for which to\n'
+            'repeat the experiment. The example above represents a single trial. Each\n'
+            'trial is represented on the line chart (figure 1) with its own line. Running\n'
+            'the experiment with more trials will produce a more robust set of statistical\n'
+            'inferences, but is also likely to lead to more extreme outlier obseravtions.\n')
+    st.subheader('Starting Bankroll')
+    st.text('This slider gives users control over the amount of money with which each trial\n'
+            'begins. When this amount is lost, the trial will be considered bankrupt (aka ruin\n'
+            'scneario) and the trial will be over./n')
+    st.subheader('Starting Wager')
+    st.text('This slider allows users to control the starting wager for each martingale cycle.\n'
+            'This input is capped at 10% of the starting bankroll to allow for an adequate\n'
+            'implementation of the martingale strategy.\n'
+            )
+    st.subheader('Number of Spins (Condition 2 Only)')
+    st.text('In condition 2, this slider allows users to explore the effect of a stopping\n'
+            'criteria based on number of spins. Trials that do not go bankrupt will end\n'
+            'once this limit has been reached.\n'
+            )
+    st.subheader('Profit Goal (Condition 3 Only)')
+    st.text('In condition 3, this slider allows users to explore the effect of a stopping\n'
+            'criteria based on a profit goal, as represented by a multiple of the starting\n'
+            'bankroll. Trials that do not go bankrupt will end once this goal has been reached.')
+
+    
     st.header('Methodology')
-    st.text('The purpose of this application is to allow users to explore martingaling strategies under\n'
-            'various conditions. Using repeated stochastic simulation, we model the distribution\n'
-            'of results of a specified martingale strategy, as subject to a number of user-defined\n'
-            'criteria. Within the left sidebar, use the dropdown menu to select among the experimental\n'
-            'conditions described below.\n')
+    st.text('The purpose of this application is to allow users to trivially explore the martingale\n'
+            'strategy under various conditions and inputs. Using repeated stochastic simulation, we\n'
+            'model the distribution of results of the martingale strategy within varied experimental\n'
+            'conditions and subject to the user-defined model inputs described above. By inputting\n'
+            'various assumptions, users are able to quickly run and re-run related experiments and \n'
+            'examine the impact of those assumptions on the distribution of results the strategy will\n'
+            'produce.\n')
     st.subheader('Condition 1 - Spin Until Bust')
     st.text('This is the most straightforward condition, in which each trial (representing a bettor) \n'
             'is allowed to martingale until bankruptcy. This condition is largely theoretical, in that\n'
@@ -233,8 +300,8 @@ if option == 'Introduction':
             'before stopping (e.g. the bettor wants to double/triple/10x their bankroll and then\n'
             'stop).\n')
 
-elif option == 'Spin Until Bankrupt':
-    st.header("Condition: Spin Until Bankrupt")
+elif option == 'Condition 1: Spin Until Bankrupt':
+    st.header("Condition 1: Spin Until Bankrupt")
     st.text('In this condition we allow each trial to continue\n'
             'until the entire bankroll is lost.\n')
     left, right = st.beta_columns(2)
@@ -323,8 +390,8 @@ elif option == 'Spin Until Bankrupt':
     a.columns = ['Peak Profit']
     right_column.write(a)
 
-elif option == 'Fixed Number of Spins':
-    st.header("Condition: Fixed Number of Spins")
+elif option == 'Condition 2: Fixed Number of Spins':
+    st.header("Condition 2: Fixed Number of Spins")
     st.text('In this condition we allow each trial to continue until a\n'
             'fixed number of spins or the entire bankroll is lost.\n')
     left, right = st.beta_columns(2)
@@ -352,8 +419,8 @@ elif option == 'Fixed Number of Spins':
     plt.title('Figure 2: Proportion of Winners and Losers')
     right.pyplot(fig)
 
-elif option == 'X-or-nothing':
-    st.header("Condition: Multiplier Goal")
+elif option == 'Condition 3: X-or-nothing':
+    st.header("Condition 3: Multiplier Goal")
     st.text('In this condition we allow each trial to continue\n'
             'until the entire bankroll is lost or a multiplier goal is met.\n')
     left, right = st.beta_columns(2)
@@ -388,5 +455,7 @@ elif option == 'X-or-nothing':
     plt.title('Figure 2: Proportion of Winners and Losers')
     right.pyplot(fig)
     # RESUME HERE
+elif option == "Conclusions":
+    st.header('Conclusions')
 else:
     st.write('Hmmm... this shouldn\'t be...')
