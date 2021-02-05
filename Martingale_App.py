@@ -9,6 +9,18 @@ house_odds = 0.4736842
 true_flip_odds = 0.5
 odds = house_odds
 
+
+def handle_losing_spin(balance, bet):
+    balance -= bet
+    bet = bet * 2
+    return balance, bet
+
+
+def handle_winning_spin(balance, bet):
+    balance += bet
+    return balance
+
+
 def spin_til_bust(trials, bankroll, startingBet):
     fig = plt.figure()
     # list containing lists of each trial's results.
@@ -33,12 +45,11 @@ def spin_til_bust(trials, bankroll, startingBet):
                 if balance >= bet:
                     # losing spin
                     if random.random() > p_win:
-                        balance -= bet
-                        bet = bet * 2
+                        balance, bet = handle_losing_spin(balance, bet)
                         trialResult.append(balance-bankroll)
                     # winning spin
                     else:
-                        balance += bet
+                        balance = handle_winning_spin(balance, bet)
                         trialResult.append(balance-bankroll)
                         break
                 else:
@@ -88,17 +99,15 @@ def x_num_spins(trials, bankroll, startingBet, numSpins):
                 if counter == numSpins:
                     break
                 if balance >= bet:
-                    print('New Spin #', spins,
-                          'Balance =', balance,
-                          'Bet =', bet)
+                    # losing spin
                     if random.random() > p_win:
-                        balance -= bet
-                        bet = bet * 2
+                        balance, bet = handle_losing_spin(balance, bet)
                         trialResult.append(balance-bankroll)
                         spins += 1
                         counter += 1
+                    # winning spin
                     else:
-                        balance += bet
+                        balance = handle_winning_spin(balance, bet)
                         trialResult.append(balance-bankroll)
                         spins += 1
                         cycles += 1
@@ -142,12 +151,11 @@ def x_or_nothing(trials, bankroll, startingBet, multGoal: int):
                 if balance >= bet:
                     # losing spin
                     if random.random() > p_win:
-                        balance -= bet
-                        bet = bet * 2
+                        balance, bet = handle_losing_spin(balance, bet)
                         trialResult.append(balance-bankroll)
                     # winning spin
                     else:
-                        balance += bet
+                        balance = handle_winning_spin(balance, bet)
                         trialResult.append(balance-bankroll)
                         break
                 else:
@@ -271,7 +279,6 @@ if option == 'Home':
             'criteria based on a profit goal, as represented by a multiple of the starting\n'
             'bankroll. Trials that do not go bankrupt will end once this goal has been reached.')
 
-    
     st.header('Methodology')
     st.text('The purpose of this application is to allow users to trivially explore the martingale\n'
             'strategy under various conditions and inputs. Using repeated stochastic simulation, we\n'
