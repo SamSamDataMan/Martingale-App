@@ -61,7 +61,7 @@ def spin_til_bust(trials, bankroll, startingBet):
         if listMax > x_max:
             x_max = listMax
     plt.title('Figure 1: Profit Over Time')
-    plt.ylabel('Profit')
+    plt.ylabel('Profit ($)')
     plt.ylim(-2*bankroll)
     plt.hlines((-1*bankroll), 0, x_max,
                colors='Red', linestyles='solid',
@@ -120,7 +120,7 @@ def x_num_spins(trials, bankroll, startingBet, numSpins):
         plt.plot(trialResult, linewidth=.5, alpha=.5)
     plt.title('Figure 1: Profit Over # of Spins')
     plt.grid(b=True, which='major')
-    plt.ylabel('Profit')
+    plt.ylabel('Profit ($)')
     plt.xlabel('Spin Count')
     plt.legend()
     left.pyplot(fig)
@@ -167,7 +167,7 @@ def x_or_nothing(trials, bankroll, startingBet, multGoal: int):
         if listMax > x_max:
             x_max = listMax
     plt.title('Figure 1: Profit Over Time')
-    plt.ylabel('Profit')
+    plt.ylabel('Profit ($)')
     plt.ylim(-1.2*bankroll)
     plt.hlines((-1*bankroll), 0, x_max,
                colors='Red', linestyles='solid',
@@ -185,7 +185,7 @@ def x_or_nothing(trials, bankroll, startingBet, multGoal: int):
 # Sidebar - User Inputs
 st.sidebar.title('Martingale Analysis')
 option = st.sidebar.selectbox(
-     'Choose an Experimental Condition:',
+     'Page Navigation:',
      ('Home', 'Condition 1: Spin Until Bankrupt', 'Condition 2: Fixed Number of Spins',
       'Condition 3: X-or-nothing', 'Conclusions'))
 
@@ -202,6 +202,10 @@ elif odds == "True Flip":
 
 if option == 'Home':
     st.header('Introduction, User-Guide, & Methodology')
+    st.text('This application allows users to model the results of martingale gambling strategies.\n'
+            'By adjusting inputs into the model and choosing from various experimental conditions,\n'
+            'the user can trivially model and examine the expected results of a massive combination\n'
+            'of custom-specified designs.')
     st.subheader('Introduction')
     st.text('Martingaling is a betting strategy which has bettors double '
             'their wager after each \n'
@@ -227,7 +231,7 @@ if option == 'Home':
     df.set_index('Spin', inplace=True)
     st.write(df.head(6))
     st.text('The profit history of the of the above results can be graphed'
-            'accordingly:')
+            ' accordingly:')
 
     spin = [0, 1, 2, 3, 4, 5, 6]
     profit = [0, 10, 0, -20, 20, 10, 30]
@@ -287,7 +291,7 @@ if option == 'Home':
             'various assumptions, users are able to quickly run and re-run related experiments and \n'
             'examine the impact of those assumptions on the distribution of results the strategy will\n'
             'produce.\n')
-    st.subheader('Condition 1 - Spin Until Bust')
+    st.subheader('Condition 1 - Spin Until Bankrupt')
     st.text('This is the most straightforward condition, in which each trial (representing a bettor) \n'
             'is allowed to martingale until bankruptcy. This condition is largely theoretical, in that\n'
             'few bettors undertake a strategy intent on eventually going bankrupt. That aside, this\n'
@@ -309,8 +313,7 @@ if option == 'Home':
 
 elif option == 'Condition 1: Spin Until Bankrupt':
     st.header("Condition 1: Spin Until Bankrupt")
-    st.text('In this condition we allow each trial to continue\n'
-            'until the entire bankroll is lost.\n')
+    st.text('In this condition we allow each trial to continue until the entire bankroll is lost.\n')
     left, right = st.beta_columns(2)
     left.subheader("Number of Spins Until Bankrupt")
     trials = st.sidebar.slider('1. Select a # of trials to'
@@ -324,6 +327,11 @@ elif option == 'Condition 1: Spin Until Bankrupt':
                                  5, int(bankroll/10), 10, step=5)
     # Create first chart
     results = spin_til_bust(trials, bankroll, startBet)
+    left.text('Figure 1 shows the profit history of trial\n'
+              'in this experiment. Note that most trials\n'
+              'end in bankruptcy fairly quickly, but a\n'
+              'relative few are successful for a large\n'
+              'number of spins before going bankrupt.')
 
     # Descriptives for First Plot
     spinsToBust = []
@@ -352,6 +360,17 @@ elif option == 'Condition 1: Spin Until Bankrupt':
     std = round(df['Spin Count'].std(), 2)
     maxx = round(df['Spin Count'].max(), 2)
     minn = round(df['Spin Count'].min(), 2)
+
+    left.text('The shortest trial in the experiment\n'
+              'concluded in a mere ' + str(minn) + ' spins, while the\n'
+              'longest trial lasted for ' + str(maxx) + ' spins.\n'
+              'The difference between measure of central\n'
+              'tendency also speak to the skew of this\n'
+              'distribution. Given a mean number of spins\n'
+              '(' + str(int(mean)) + ') which is significantly higher\n'
+              'than the median (' + str(int(median)) + '), we can see the impact\n'
+              'of outlier long-duration trials skewing\n'
+              'our spin-count distribution.')
 
     neverUp = [i for i in maxProfits if i[0] == -10]
     doubledUp = [i for i in maxProfits if i[0] >= 1000]
@@ -383,19 +402,40 @@ elif option == 'Condition 1: Spin Until Bankrupt':
     ax.set(xlabel='Peak Profit of Trial ($)', ylabel='Frequency of Outcome')
     ax.set_facecolor('aliceblue')
     right.pyplot(fig)
+    right.text('Figure 2 shows the distribution of peak\n'
+               'profits for each trial (with each red \n'
+               'line on the rugplot representing a\n'
+               'single trial). Note that a small subset\n'
+               'of all trials experiences significant profit\n'
+               'before inevitably going bankrupt, skewing the\n'
+               'distribution significantly to the right.')
+    
+    right.text('The most successful trial in this experiment\n'
+               'experienced a peak profit of $' + str(maxx2) + ', while\n'
+               'the least successful trial(s) experienced a\n'
+               'peak profit of $' + str(minn2) + '. Similar to figure 1\n'
+               'the mean: $' + str(round(mean2, 2)) + ' is significantly higher\n'
+               'than the median: $' + str(round(median2, 2)) + ' indicating rightward\n'
+               'skew to this distribution as well.')
 
-    # First Table
-    left_column, right_column = st.beta_columns(2)
-    a = pd.DataFrame([int(mean), int(median), int(std), int(maxx), int(minn)])
-    a.index = ['Mean', 'Median', 'St.Dev', 'Maximum', 'Minimum']
-    a.columns = ['Number of Spins']
-    left_column.write(a)
-
-    a = pd.DataFrame([int(mean2), int(median2), int(std2),
-                      int(maxx2), int(minn2)])
-    a.index = ['Mean', 'Median', 'St.Dev', 'Maximum', 'Minimum']
-    a.columns = ['Peak Profit']
-    right_column.write(a)
+    st.header('Takeaways From This Condition')
+    st.subheader('1. Martingaling cannot turn an unprofitable game into a profitable one')
+    st.text('In this condiiton, each trial is allowed to continue until the trial is bankrupt. The fact\n'
+            'that, regardless of any combination of input variables (bankroll or starting bet), each\n'
+            'trial inevitably ends at some point in bankruptcy.')
+    st.subheader('2. The variance in outcomes resulting from this strategy is massive')
+    st.text('If this strategy is not profitable, it is natural to wonder why it enjoyed periodic\n'
+            'popularity. The large variance of outcomes associated with this strategy is one likely\n'
+            'explanation. For example, if someone had tried using the strategy and experienced the \n'
+            'short-term results associated with one of our outlier trials, but had not yet experienced \n'
+            'an inevitable downswing, that person may have been anecdotally convinced of its efficacy,\n'
+            'and may have convinced others to attempt this seemingly "fool-proof" strategy themselves.')
+    st.subheader('3. Adjusting "Win Probability" to true 50/50 odds massively increases variance of results')
+    st.text('Intuitively, removing a "house edge" from the game results in increases the expected\n'
+            'longevity of each trial. In a "fair" game with 50/50 odds, we see a wider distribution of\n'
+            'outcomes, but the fact remains that each trial will eventually go bankrupt by following\n'
+            'this strategy. As a collolary to the first takeaway, martingaling will only be profitable\n'
+            'in a game that is already profitable without the martingale strategy.')
 
 elif option == 'Condition 2: Fixed Number of Spins':
     st.header("Condition 2: Fixed Number of Spins")
