@@ -410,7 +410,7 @@ elif option == 'Condition 1: Spin Until Bankrupt':
                'of all trials experiences significant profit\n'
                'before inevitably going bankrupt, skewing\n'
                'the distribution significantly to the right.')
-    
+               
     right.text('The most successful trial in this experiment\n'
                'experienced a peak profit of $' + str(maxx2) + ', while\n'
                'the least successful trial(s) experienced a\n'
