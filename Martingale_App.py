@@ -317,11 +317,11 @@ elif option == 'Condition 1: Spin Until Bankrupt':
     left, right = st.beta_columns(2)
     left.subheader("Number of Spins Until Bankrupt")
     trials = st.sidebar.slider('1. Select a # of trials to'
-                               'repeat the experiment:', 10, 1000, 100,
+                               'repeat the experiment:', 50, 500, 100,
                                step=10)
     bankroll = st.sidebar.slider('2. Select a starting bankroll'
-                                 ' for each trial:', 25, 10000, 1000,
-                                 step=25)
+                                 ' for each trial:', 100, 10000, 1000,
+                                 step=100)
     startBet = st.sidebar.slider('3. Select a starting wager'
                                  ' for each martingale cycle:',
                                  5, int(bankroll/10), 10, step=5)
@@ -364,13 +364,13 @@ elif option == 'Condition 1: Spin Until Bankrupt':
     left.text('The shortest trial in the experiment\n'
               'concluded in a mere ' + str(minn) + ' spins, while the\n'
               'longest trial lasted for ' + str(maxx) + ' spins.\n'
-              'The difference between measure of central\n'
+              'The difference between measures of central\n'
               'tendency also speak to the skew of this\n'
               'distribution. Given a mean number of spins\n'
               '(' + str(int(mean)) + ') which is significantly higher\n'
               'than the median (' + str(int(median)) + '), we can see the impact\n'
               'of outlier long-duration trials skewing\n'
-              'our spin-count distribution.')
+              'our spin-count distribution to the right.')
 
     neverUp = [i for i in maxProfits if i[0] == -10]
     doubledUp = [i for i in maxProfits if i[0] >= 1000]
@@ -390,25 +390,26 @@ elif option == 'Condition 1: Spin Until Bankrupt':
     fig = plt.figure()
     plt.title('Figure 2: Max Profit of Each Trial')
     ax = sns.distplot(df2['Max Profit'],
-                      rug=True, rug_kws={'height': '.085'},
-                      kde_kws={'color': 'forestgreen', 'linewidth': '1.5'},
-                      bins=30, hist=False,
+                      rug=True, rug_kws={'height': '.025'},
+                      kde_kws={'color': 'green', 'linewidth': '1.5'},
+                      hist=True, norm_hist=False,bins=int(trials/10),
+                      hist_kws={'color': 'lightsalmon'},
                       color='crimson')
     # plt.vlines(mean2,0,0.0005,colors='indigo',linestyles='dotted',linewidth=2,label='Mean',)
     # plt.vlines(median2,0,0.0005,colors='orange',linestyles='--',linewidth=2,label='Median')
     plt.legend()
     plt.grid(b=True, which='major', linewidth=.4)
+    ax.set_xlim(-10,maxx2)
     ax.yaxis.set_major_formatter(mtick.PercentFormatter())
     ax.set(xlabel='Peak Profit of Trial ($)', ylabel='Frequency of Outcome')
-    ax.set_facecolor('aliceblue')
     right.pyplot(fig)
     right.text('Figure 2 shows the distribution of peak\n'
                'profits for each trial (with each red \n'
                'line on the rugplot representing a\n'
                'single trial). Note that a small subset\n'
                'of all trials experiences significant profit\n'
-               'before inevitably going bankrupt, skewing the\n'
-               'distribution significantly to the right.')
+               'before inevitably going bankrupt, skewing\n'
+               'the distribution significantly to the right.')
     
     right.text('The most successful trial in this experiment\n'
                'experienced a peak profit of $' + str(maxx2) + ', while\n'
@@ -419,17 +420,17 @@ elif option == 'Condition 1: Spin Until Bankrupt':
                'skew to this distribution as well.')
 
     st.header('Takeaways From This Condition')
-    st.subheader('1. Martingaling cannot turn an unprofitable game into a profitable one')
-    st.text('In this condiiton, each trial is allowed to continue until the trial is bankrupt. The fact\n'
-            'that, regardless of any combination of input variables (bankroll or starting bet), each\n'
-            'trial inevitably ends at some point in bankruptcy.')
-    st.subheader('2. The variance in outcomes resulting from this strategy is massive')
-    st.text('If this strategy is not profitable, it is natural to wonder why it enjoyed periodic\n'
-            'popularity. The large variance of outcomes associated with this strategy is one likely\n'
-            'explanation. For example, if someone had tried using the strategy and experienced the \n'
-            'short-term results associated with one of our outlier trials, but had not yet experienced \n'
-            'an inevitable downswing, that person may have been anecdotally convinced of its efficacy,\n'
-            'and may have convinced others to attempt this seemingly "fool-proof" strategy themselves.')
+    st.subheader('1. Martingaling appears to be successful (until it isn\'t)')
+    st.text('Each trial experiences slow and steady profitability tightly grouped around an upward-\n'
+            'sloping trajectory until the trial experiences a ruin or near-ruin scenario. After a \n'
+            'near-ruin scenario, this slow, upward-sloping pattern continues until encoutering ruin\n'
+            'or near-ruin again, and so forth until bankruptcy.')
+
+    st.subheader('2. Martingaling cannot turn an unprofitable game into a profitable one')
+    st.text('The fact is that, regardless of any combination of input variables (bankroll or starting \n'
+            'bet), each trial inevitably ends at some point in bankruptcy. This condition suggests,\n'
+            'given a finite bankroll, a martingaler will eventually go bankrupt.')
+    
     st.subheader('3. Adjusting "Win Probability" to true 50/50 odds massively increases variance of results')
     st.text('Intuitively, removing a "house edge" from the game results in increases the expected\n'
             'longevity of each trial. In a "fair" game with 50/50 odds, we see a wider distribution of\n'
@@ -437,18 +438,26 @@ elif option == 'Condition 1: Spin Until Bankrupt':
             'this strategy. As a collolary to the first takeaway, martingaling will only be profitable\n'
             'in a game that is already profitable without the martingale strategy.')
 
+    st.subheader('4. The variance in outcomes resulting from this strategy is massive')
+    st.text('If this strategy is not profitable, it is natural to wonder why it enjoyed periodic\n'
+            'popularity. The large variance of outcomes associated with this strategy is one likely\n'
+            'explanation. For example, if someone had tried using the strategy and experienced the \n'
+            'short-term results associated with one of our outlier trials, but had not yet experienced \n'
+            'an inevitable downswing, that person may have been anecdotally convinced of its efficacy,\n'
+            'and may have convinced others to attempt this seemingly "fool-proof" strategy themselves.')
+
 elif option == 'Condition 2: Fixed Number of Spins':
     st.header("Condition 2: Fixed Number of Spins")
-    st.text('In this condition we allow each trial to continue until a\n'
-            'fixed number of spins or the entire bankroll is lost.\n')
+    st.text('In this condition we allow each trial to continue for a fixed number of spins or until the\n'
+            'entire bankroll is lost.\n')
     left, right = st.beta_columns(2)
     left.subheader("Fixed Number of Spins")
     trials = st.sidebar.slider('1. Select a # of trials to'
-                               ' repeat the experiment:', 10, 1000, 100,
+                               ' repeat the experiment:', 50, 500, 100,
                                step=10)
     bankroll = st.sidebar.slider('2. Select a starting bankroll'
-                                 ' for each trial:', 25, 10000, 1000,
-                                 step=25)
+                                 ' for each trial:', 100, 10000, 1000,
+                                 step=100)
     startBet = st.sidebar.slider('3. Select a starting wager'
                                  ' for each martingale cycle:',
                                  5, int(bankroll/10), 10, step=5)
@@ -458,6 +467,10 @@ elif option == 'Condition 2: Fixed Number of Spins':
     results = x_num_spins(trials, bankroll, startBet, numSpins)
     winners = [i for i in results if i[-1] > 0]
     losers = [i for i in results if i[-1] < 0]
+    winner_results = [i[-1] for i in winners]
+    loser_results = [i[-1] for i in losers]
+    total_won = sum(winner_results)
+    total_lost = sum(loser_results)
     x = ['Winners', 'Losers']
     y = [len(winners), len(losers)]
     fig = plt.figure(figsize=(8, 6))
@@ -466,6 +479,16 @@ elif option == 'Condition 2: Fixed Number of Spins':
     plt.title('Figure 2: Proportion of Winners and Losers')
     right.pyplot(fig)
 
+    st.header('Results:')
+    st.text('The ' + str(len(winners)) + ' winning trials won a total of $' + str(total_won) + ' or $' + str(round(total_won/len(winners),2)) +' per winning trial.\n'
+            'The ' + str(len(losers)) + ' losing trials lost a total of $' + str(total_lost) + ' or $' + str(round(total_lost/len(losers),2)) +' per losing trial.')
+    st.text('The total return of all trials in this experiment was $' + str(total_won+total_lost) + '.\n'
+            'The expected value of each trial is $' + str(round((total_won+total_lost)/trials,2)) + ' or ' + str(round((((total_won+total_lost)/trials)/bankroll)*100,2)) +'% of the starting bankroll.')
+
+    st.header('Takeaways from this condition:')
+    st.subheader('1. Placeholder')
+    st.text('Placeholder')
+
 elif option == 'Condition 3: X-or-nothing':
     st.header("Condition 3: Multiplier Goal")
     st.text('In this condition we allow each trial to continue\n'
@@ -473,11 +496,11 @@ elif option == 'Condition 3: X-or-nothing':
     left, right = st.beta_columns(2)
     left.subheader("Number of Spins To Goal or Bankrupt")
     trials = st.sidebar.slider('1. Select a # of trials to'
-                               ' repeat the experiment:', 10, 1000, 100,
+                               ' repeat the experiment:', 50, 500, 100,
                                step=10)
     bankroll = st.sidebar.slider('2. Select a starting bankroll'
-                                 ' for each trial:', 25, 10000, 1000,
-                                 step=25)
+                                 ' for each trial:', 100, 10000, 1000,
+                                 step=100)
     startBet = st.sidebar.slider('3. Select a starting wager'
                                  ' for each martingale cycle:',
                                  5, int(bankroll/10), 10, step=5)
