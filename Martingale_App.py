@@ -378,11 +378,6 @@ elif option == 'Condition 1: Spin Until Bankrupt':
               'of outlier long-duration trials skewing\n'
               'our spin-count distribution to the right.')
 
-    neverUp = [i for i in maxProfits if i[0] == -10]
-    doubledUp = [i for i in maxProfits if i[0] >= 1000]
-    tripledUp = [i for i in maxProfits if i[0] >= 2000]
-    tenX = [i for i in maxProfits if i[0] >= 10000]
-
     df2 = pd.DataFrame(maxProfitList)
     df2.columns = ['Max Profit']
 
