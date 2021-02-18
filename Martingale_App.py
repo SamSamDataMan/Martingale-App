@@ -219,16 +219,16 @@ if option == 'Home':
                 'on a $10 starting bet:\n')
         results = {'Spin': ['Spin 1', 'Spin 2', 'Spin 3', 'Spin 4', 'Spin 5',
                             'Spin 6'],
-                'Martingale Cycle': ['Cycle 1/ Spin 1', 'Cycle 2/ Spin 1',
+                   'Martingale Cycle': ['Cycle 1/ Spin 1', 'Cycle 2/ Spin 1',
                                         'Cycle 2/ Spin 2', 'Cycle 2/ Spin 3',
                                         'Cycle 3/ Spin 1', 'Cycle 3/ Spin 2'],
-                'Result': ['Win', 'Lose', 'Lose', 'Win', 'Lose', 'Win'],
-                'Return': ['+10', '-10', '-20', '+40', '-10', '+20'],
-                'Total Profit': ['+10', '0', '-20', '+20', '+10', '+30'],
-                'Next Action': ['Start New Cycle', 'Double Bet',
-                                'Double Bet Again', 'Start New Cycle',
-                                'Double Bet', 'Start New Cycle']
-                }
+                   'Result': ['Win', 'Lose', 'Lose', 'Win', 'Lose', 'Win'],
+                   'Return': ['+10', '-10', '-20', '+40', '-10', '+20'],
+                   'Total Profit': ['+10', '0', '-20', '+20', '+10', '+30'],
+                   'Next Action': ['Start New Cycle', 'Double Bet',
+                                   'Double Bet Again', 'Start New Cycle',
+                                   'Double Bet', 'Start New Cycle']
+                   }
         df = pd.DataFrame(results)
         df.set_index('Spin', inplace=True)
         st.write(df.head(6))
@@ -241,7 +241,7 @@ if option == 'Home':
         plt.xlabel('Spin')
         plt.ylabel('Profit ($)')
         plt.vlines(1, -20, 30, linestyles='--', colors='green',
-                label="Start New Cycle")
+                   label="Start New Cycle")
         plt.vlines(4, -20, 30, linestyles='--', colors='green')
         plt.vlines(6, -20, 30, linestyles='--', colors='green')
         plt.legend(loc=2)
@@ -286,7 +286,7 @@ if option == 'Home':
         st.text('In condition 3, this slider allows users to explore the effect of a stopping\n'
                 'criteria based on a profit goal, as represented by a multiple of the starting\n'
                 'bankroll. Trials that do not go bankrupt will end once this goal has been reached.')
-    
+
     if st.checkbox('Methodology'):
         st.header('Methodology')
         st.text('The purpose of this application is to allow users to trivially explore the martingale\n'
@@ -393,14 +393,12 @@ elif option == 'Condition 1: Spin Until Bankrupt':
     ax = sns.distplot(df2['Max Profit'],
                       rug=True, rug_kws={'height': '.025'},
                       kde_kws={'color': 'green', 'linewidth': '1.5'},
-                      hist=True, norm_hist=False,bins=int(trials/10),
+                      hist=True, norm_hist=False, bins=int(trials/10),
                       hist_kws={'color': 'lightsalmon'},
                       color='crimson')
-    # plt.vlines(mean2,0,0.0005,colors='indigo',linestyles='dotted',linewidth=2,label='Mean',)
-    # plt.vlines(median2,0,0.0005,colors='orange',linestyles='--',linewidth=2,label='Median')
     plt.legend()
     plt.grid(b=True, which='major', linewidth=.4)
-    ax.set_xlim(-10,maxx2)
+    ax.set_xlim(-10, maxx2)
     ax.yaxis.set_major_formatter(mtick.PercentFormatter())
     ax.set(xlabel='Peak Profit of Trial ($)', ylabel='Frequency of Outcome')
     right.pyplot(fig)
@@ -413,7 +411,7 @@ elif option == 'Condition 1: Spin Until Bankrupt':
                'of all trials experiences significant profit\n'
                'before inevitably going bankrupt, skewing\n'
                'the distribution significantly to the right.')
-               
+
     right.text('The most successful trial in this experiment\n'
                'experienced a peak profit of $' + str(maxx2) + ', while\n'
                'the least successful trial(s) experienced a\n'
@@ -433,7 +431,7 @@ elif option == 'Condition 1: Spin Until Bankrupt':
     st.text('The fact is that, regardless of any combination of input variables (bankroll or starting \n'
             'bet), each trial inevitably ends at some point in bankruptcy. This condition suggests,\n'
             'given a finite bankroll, a martingaler will eventually go bankrupt.')
-    
+
     st.subheader('3. Adjusting "Win Probability" to true 50/50 odds massively increases variance of results')
     st.text('Intuitively, removing a "house edge" from the game results in increases the expected\n'
             'longevity of each trial. In a "fair" game with 50/50 odds, we see a wider distribution of\n'
@@ -483,10 +481,11 @@ elif option == 'Condition 2: Fixed Number of Spins':
     right.pyplot(fig)
 
     st.header('Results:')
-    st.text('The ' + str(len(winners)) + ' winning trials won a total of $' + str(total_won) + ' or $' + str(round(total_won/len(winners),2)) +' per winning trial.\n'
-            'The ' + str(len(losers)) + ' losing trials lost a total of $' + str(total_lost) + ' or $' + str(round(total_lost/len(losers),2)) +' per losing trial.')
+    st.text('The ' + str(len(winners)) + ' winning trials won a total of $' + str(total_won) + ' or $' + str(round(total_won/len(winners), 2)) + ' per winning trial.\n'
+            'The ' + str(len(losers)) + ' losing trials lost a total of $' + str(total_lost) + ' or $' + str(round(total_lost/len(losers), 2)) + ' per losing trial.')
     st.text('The total return of all trials in this experiment was $' + str(total_won+total_lost) + '.\n'
-            'The expected value of each trial is $' + str(round((total_won+total_lost)/trials,2)) + ' or ' + str(round((((total_won+total_lost)/trials)/bankroll)*100,2)) +'% of the starting bankroll.')
+            'The expected value of each trial is $' + str(round((total_won+total_lost)/trials, 2)) + ' or ' + str(round((((total_won+total_lost)/trials)/bankroll)*100, 2)) + '% of the starting'
+            'bankroll.')
 
     st.header('Takeaways from this condition:')
     st.subheader('1. Placeholder')
@@ -520,7 +519,7 @@ elif option == 'Condition 3: X-or-nothing':
             loserResults.append(i)
     winnerCount = len(winnerResults)
     loserCount = len(loserResults)
-    winnerTotals = [i[-1] for i in winnerResults] 
+    winnerTotals = [i[-1] for i in winnerResults]
     loserTotals = [i[-1] for i in loserResults]
     total_won_c3 = sum(winnerTotals)
     total_lost_c3 = sum(loserTotals)
@@ -533,10 +532,11 @@ elif option == 'Condition 3: X-or-nothing':
     right.pyplot(fig)
 
     st.header('Results:')
-    st.text('The ' + str(len(winnerResults)) + ' winning trials won a total of $' + str(total_won_c3) + ' or $' + str(round(total_won_c3/len(winnerResults),2)) +' per winning trial.\n'
-            'The ' + str(len(loserResults)) + ' losing trials won a total of $' + str(total_lost_c3) + ' or $' + str(round(total_lost_c3/len(loserResults),2)) +' per losing trial.\n')
+    st.text('The ' + str(len(winnerResults)) + ' winning trials won a total of $' + str(total_won_c3) + ' or $' + str(round(total_won_c3/len(winnerResults), 2)) + ' per winning trial.\n'
+            'The ' + str(len(loserResults)) + ' losing trials won a total of $' + str(total_lost_c3) + ' or $' + str(round(total_lost_c3/len(loserResults), 2)) + ' per losing trial.\n')
     st.text('The total return of all trials in this experiment was $' + str(total_won_c3+total_lost_c3) + '.\n'
-            'The expected value of each trial is $' + str(round((total_won_c3+total_lost_c3)/trials,2)) + ' or ' + str(round((((total_won_c3+total_lost_c3)/trials)/bankroll)*100,2)) +'% of the starting bankroll.')
+            'The expected value of each trial is $' + str(round((total_won_c3+total_lost_c3)/trials, 2)) + ' or ' + str(round((((total_won_c3+total_lost_c3)/trials)/bankroll)*100, 2)) + '% of the'
+            'starting bankroll.')
 
     # RESUME HERE
 elif option == "Conclusions":
@@ -565,7 +565,6 @@ elif option == "Conclusions":
     st.text('Similar to condition 2, condition 3 showed that a more aggressive approach (either a more\n'
             'ambitious stopping critera or starting-bet:bankroll ratio) will result in worse\n'
             'performance for each trial, as indicated by a lower returned expected value per trial.')
-    
 
 else:
     st.write('Hmmm... this shouldn\'t be...')
