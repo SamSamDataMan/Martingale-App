@@ -485,7 +485,7 @@ elif option == 'Condition 2: Fixed Number of Spins':
             'The ' + str(len(losers)) + ' losing trials lost a total of $' + str(total_lost) + ' or $' + str(round(total_lost/len(losers), 2)) + ' per losing trial.')
     st.text('The total return of all trials in this experiment was $' + str(total_won+total_lost) + '.\n'
             'The expected value of each trial is $' + str(round((total_won+total_lost)/trials, 2)) + ' or ' + str(round((((total_won+total_lost)/trials)/bankroll)*100, 2)) + '% of the starting'
-            'bankroll.')
+            ' bankroll.')
 
     #st.header('Takeaways from this condition:')
     #st.subheader('1. Placeholder')
@@ -536,7 +536,7 @@ elif option == 'Condition 3: X-or-nothing':
             'The ' + str(len(loserResults)) + ' losing trials won a total of $' + str(total_lost_c3) + ' or $' + str(round(total_lost_c3/len(loserResults), 2)) + ' per losing trial.\n')
     st.text('The total return of all trials in this experiment was $' + str(total_won_c3+total_lost_c3) + '.\n'
             'The expected value of each trial is $' + str(round((total_won_c3+total_lost_c3)/trials, 2)) + ' or ' + str(round((((total_won_c3+total_lost_c3)/trials)/bankroll)*100, 2)) + '% of the'
-            'starting bankroll.')
+            ' starting bankroll.')
 
     # RESUME HERE
 elif option == "Conclusions":
