@@ -321,8 +321,8 @@ elif option == 'Condition 1: Spin Until Bankrupt':
     st.text('In this condition we allow each trial to continue until the entire bankroll is lost.\n')
     left, right = st.beta_columns(2)
     left.subheader("Number of Spins Until Bankrupt")
-    trials = st.sidebar.slider('1. Select a # of trials to'
-                               'repeat the experiment:', 50, 500, 100,
+    trials = st.sidebar.slider('1. Select a # of trials to repeat the experiment:',
+                               50, 500, 100,
                                step=10)
     bankroll = st.sidebar.slider('2. Select a starting bankroll'
                                  ' for each trial:', 100, 10000, 1000,
@@ -333,7 +333,7 @@ elif option == 'Condition 1: Spin Until Bankrupt':
     # Create first chart
     results = spin_til_bust(trials, bankroll, startBet)
     left.subheader('Results')
-    left.text('Figure 1 shows the profit history of trial\n'
+    left.text('Figure 1 shows the profit history of trials\n'
               'in this experiment. Note that most trials\n'
               'end in bankruptcy fairly quickly, but a\n'
               'relative few are successful for a large\n'
@@ -453,8 +453,8 @@ elif option == 'Condition 2: Fixed Number of Spins':
             'entire bankroll is lost.\n')
     left, right = st.beta_columns(2)
     left.subheader("Fixed Number of Spins")
-    trials = st.sidebar.slider('1. Select a # of trials to'
-                               ' repeat the experiment:', 50, 500, 100,
+    trials = st.sidebar.slider('1. Select a # of trials to repeat the experiment:',
+                               50, 500, 100,
                                step=10)
     bankroll = st.sidebar.slider('2. Select a starting bankroll'
                                  ' for each trial:', 100, 10000, 1000,
@@ -487,9 +487,9 @@ elif option == 'Condition 2: Fixed Number of Spins':
             'The expected value of each trial is $' + str(round((total_won+total_lost)/trials, 2)) + ' or ' + str(round((((total_won+total_lost)/trials)/bankroll)*100, 2)) + '% of the starting'
             'bankroll.')
 
-    st.header('Takeaways from this condition:')
-    st.subheader('1. Placeholder')
-    st.text('Placeholder')
+    #st.header('Takeaways from this condition:')
+    #st.subheader('1. Placeholder')
+    #st.text('Placeholder')
 
 elif option == 'Condition 3: X-or-nothing':
     st.header("Condition 3: Multiplier Goal")
@@ -497,8 +497,8 @@ elif option == 'Condition 3: X-or-nothing':
             'until the entire bankroll is lost or a multiplier goal is met.\n')
     left, right = st.beta_columns(2)
     left.subheader("Number of Spins To Goal or Bankrupt")
-    trials = st.sidebar.slider('1. Select a # of trials to'
-                               ' repeat the experiment:', 50, 500, 100,
+    trials = st.sidebar.slider('1. Select a # of trials to repeat the experiment:',
+                               50, 500, 100,
                                step=10)
     bankroll = st.sidebar.slider('2. Select a starting bankroll'
                                  ' for each trial:', 100, 10000, 1000,
