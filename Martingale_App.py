@@ -4,6 +4,7 @@ import random
 import seaborn as sns
 import matplotlib.ticker as mtick
 from matplotlib import pyplot as plt
+from spin_til_bust import spin_til_bust
 
 house_odds = 0.4736842
 true_flip_odds = 0.5
@@ -21,56 +22,7 @@ def handle_winning_spin(balance, bet):
     return balance
 
 
-def spin_til_bust(trials, bankroll, startingBet):
-    fig = plt.figure()
-    # list containing lists of each trial's results.
-    resultsLists = []
-    # iterate through trials.
-    for trial in range(trials):
-        # reset results list & starting balance.
-        trialResult = []
-        balance = bankroll
-        # begin new trial.
-        while True:
-            bet = startingBet
-            # if subject is bankrupt, game is over.
-            if balance < bet:
-                # append results to master list.
-                resultsLists.append(trialResult)
-                # end trial by breaking while loop.
-                break
-            # otherwise, begin new martingale cycle.
-            while True:
-                # if current bankroll is sufficient for the next wager, SPIN:
-                if balance >= bet:
-                    # losing spin
-                    if random.random() > p_win:
-                        balance, bet = handle_losing_spin(balance, bet)
-                        trialResult.append(balance-bankroll)
-                    # winning spin
-                    else:
-                        balance = handle_winning_spin(balance, bet)
-                        trialResult.append(balance-bankroll)
-                        break
-                else:
-                    break
-        plt.plot(trialResult, linewidth=1, alpha=.5)
-    x_max = 0
-    for i in resultsLists:
-        listMax = len(i)
-        if listMax > x_max:
-            x_max = listMax
-    plt.title('Figure 1: Profit Over Time')
-    plt.ylabel('Profit ($)')
-    plt.ylim(-2*bankroll)
-    plt.hlines((-1*bankroll), 0, x_max,
-               colors='Red', linestyles='solid',
-               linewidth=2, label='Bankrupt')
-    plt.legend()
-    plt.xlabel('Spin Count')
-    plt.grid(b=True, which='major')
-    left.pyplot(fig)
-    return resultsLists
+
 
 
 def x_num_spins(trials, bankroll, startingBet, numSpins):
@@ -331,7 +283,7 @@ elif option == 'Condition 1: Spin Until Bankrupt':
                                  ' for each martingale cycle:',
                                  5, int(bankroll/10), 10, step=5)
     # Create first chart
-    results = spin_til_bust(trials, bankroll, startBet)
+    results = spin_til_bust(trials, bankroll, startBet, p_win, display_container=left)
     left.subheader('Results')
     left.text('Figure 1 shows the profit history of trials\n'
               'in this experiment. Note that most trials\n'
