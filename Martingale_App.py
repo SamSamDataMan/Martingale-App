@@ -487,9 +487,9 @@ elif option == 'Condition 2: Fixed Number of Spins':
             'The expected value of each trial is $' + str(round((total_won+total_lost)/trials, 2)) + ' or ' + str(round((((total_won+total_lost)/trials)/bankroll)*100, 2)) + '% of the starting'
             ' bankroll.')
 
-    #st.header('Takeaways from this condition:')
-    #st.subheader('1. Placeholder')
-    #st.text('Placeholder')
+    # st.header('Takeaways from this condition:')
+    # st.subheader('1. Placeholder')
+    # st.text('Placeholder')
 
 elif option == 'Condition 3: X-or-nothing':
     st.header("Condition 3: Multiplier Goal")
