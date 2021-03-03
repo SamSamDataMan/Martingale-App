@@ -4,134 +4,11 @@ import random
 import seaborn as sns
 import matplotlib.ticker as mtick
 from matplotlib import pyplot as plt
-from spin_til_bust import spin_til_bust
+from engine import spin_til_bust, x_num_spins, x_or_nothing
 
 house_odds = 0.4736842
 true_flip_odds = 0.5
 odds = house_odds
-
-
-def handle_losing_spin(balance, bet):
-    balance -= bet
-    bet = bet * 2
-    return balance, bet
-
-
-def handle_winning_spin(balance, bet):
-    balance += bet
-    return balance
-
-
-
-
-
-def x_num_spins(trials, bankroll, startingBet, numSpins):
-    fig = plt.figure()
-    resultsLists = []
-    # number of subjects to repeat trial for
-    for trial in range(trials):
-        trialResult = []
-        balance = bankroll
-        cycles = 1
-        spins = 1
-        counter = 1
-        # New Martingale Cycle
-        while counter <= numSpins:
-            if counter == numSpins:
-                resultsLists.append(trialResult)
-                break
-            bet = startingBet
-            if balance < bet:
-                resultsLists.append(trialResult)
-                break
-            else:
-                print('New Martingale Cycle #', cycles)
-            # control sims by number of spins
-            while counter <= numSpins:
-                if counter == numSpins:
-                    break
-                if balance >= bet:
-                    # losing spin
-                    if random.random() > p_win:
-                        balance, bet = handle_losing_spin(balance, bet)
-                        trialResult.append(balance-bankroll)
-                        spins += 1
-                        counter += 1
-                    # winning spin
-                    else:
-                        balance = handle_winning_spin(balance, bet)
-                        trialResult.append(balance-bankroll)
-                        spins += 1
-                        cycles += 1
-                        counter += 1
-                        break
-                else:
-                    print("You're Broke, Current Profit =", balance-bankroll,
-                          "current bet =", bet)
-                    break
-        plt.plot(trialResult, linewidth=.5, alpha=.5)
-    plt.title('Figure 1: Profit Over # of Spins')
-    plt.grid(b=True, which='major')
-    plt.ylabel('Profit ($)')
-    plt.xlabel('Spin Count')
-    plt.legend()
-    left.pyplot(fig)
-    return resultsLists
-
-
-def x_or_nothing(trials, bankroll, startingBet, multGoal: int):
-    fig = plt.figure()
-    # list containing lists of each trial's results.
-    resultsLists = []
-    # iterate through trials.
-    for trial in range(trials):
-        # reset results list & starting balance.
-        trialResult = []
-        balance = bankroll
-        # begin new trial.
-        while True:
-            bet = startingBet
-            # if subject is bankrupt, game is over.
-            if balance < bet or balance >= bankroll*multGoal:
-                # append results to master list.
-                resultsLists.append(trialResult)
-                # end trial by breaking while loop.
-                break
-            # otherwise, begin new martingale cycle.
-            while True:
-                # if current bankroll is sufficient for the next wager, SPIN:
-                if balance >= bet:
-                    # losing spin
-                    if random.random() > p_win:
-                        balance, bet = handle_losing_spin(balance, bet)
-                        trialResult.append(balance-bankroll)
-                    # winning spin
-                    else:
-                        balance = handle_winning_spin(balance, bet)
-                        trialResult.append(balance-bankroll)
-                        break
-                else:
-                    break
-        plt.plot(trialResult, linewidth=1, alpha=.5)
-    x_max = 0
-    for i in resultsLists:
-        listMax = len(i)
-        if listMax > x_max:
-            x_max = listMax
-    plt.title('Figure 1: Profit Over Time')
-    plt.ylabel('Profit ($)')
-    plt.ylim(-1.2*bankroll)
-    plt.hlines((-1*bankroll), 0, x_max,
-               colors='Red', linestyles='solid',
-               linewidth=2, label='Bankrupt')
-    plt.hlines(((multGoal*bankroll)-bankroll), 0, x_max,
-               colors='Green', linestyles='solid',
-               linewidth=2, label='Achieved Goal')
-    plt.legend()
-    plt.xlabel('Spin Count')
-    plt.grid(b=True, which='major')
-    left.pyplot(fig)
-    return resultsLists
 
 
 # Sidebar - User Inputs
@@ -417,7 +294,7 @@ elif option == 'Condition 2: Fixed Number of Spins':
     numSpins = st.sidebar.slider('4. Select a number of'
                                  ' spins for each trial:',
                                  10, 10000, 100, step=10)
-    results = x_num_spins(trials, bankroll, startBet, numSpins)
+    results = x_num_spins(trials, bankroll, startBet, p_win, numSpins, display_container=left)
     winners = [i for i in results if i[-1] > 0]
     losers = [i for i in results if i[-1] < 0]
     winner_results = [i[-1] for i in winners]
@@ -461,7 +338,7 @@ elif option == 'Condition 3: X-or-nothing':
     multGoal = st.sidebar.slider('4. Select a bankroll multiplier'
                                  ' as a goal for each trial:',
                                  2, 10, 2, step=1)
-    results = x_or_nothing(trials, bankroll, startBet, multGoal)
+    results = x_or_nothing(trials, bankroll, startBet, p_win, multGoal, display_container=left)
     winnerResults = []
     loserResults = []
     for i in results:
