@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 from engine import spin_til_bust, x_num_spins, x_or_nothing
 from home import render_home
 from cond1 import render_cond1
+from cond2 import render_cond2
 
 
 house_odds = 0.4736842
@@ -94,52 +95,7 @@ elif option == "Condition 2: Fixed Number of Spins":
     results = x_num_spins(
         trials, bankroll, startBet, p_win, numSpins, display_container=left
     )
-    winners = [i for i in results if i[-1] > 0]
-    losers = [i for i in results if i[-1] < 0]
-    winner_results = [i[-1] for i in winners]
-    loser_results = [i[-1] for i in losers]
-    total_won = sum(winner_results)
-    total_lost = sum(loser_results)
-    x = ["Winners", "Losers"]
-    y = [len(winners), len(losers)]
-    fig = plt.figure(figsize=(8, 6))
-    ax = plt.bar(x, y, color=["green", "red"])
-    right.subheader("Proportion of Winners and Losers")
-    plt.title("Figure 2: Proportion of Winners and Losers")
-    right.pyplot(fig)
-
-    st.header("Results:")
-    st.text(
-        "The "
-        + str(len(winners))
-        + " winning trials won a total of $"
-        + str(total_won)
-        + " or $"
-        + str(round(total_won / len(winners), 2))
-        + " per winning trial.\n"
-        "The "
-        + str(len(losers))
-        + " losing trials lost a total of $"
-        + str(total_lost)
-        + " or $"
-        + str(round(total_lost / len(losers), 2))
-        + " per losing trial."
-    )
-    st.text(
-        "The total return of all trials in this experiment was $"
-        + str(total_won + total_lost)
-        + ".\n"
-        "The expected value of each trial is $"
-        + str(round((total_won + total_lost) / trials, 2))
-        + " or "
-        + str(round((((total_won + total_lost) / trials) / bankroll) * 100, 2))
-        + "% of the starting"
-        " bankroll."
-    )
-
-    # st.header('Takeaways from this condition:')
-    # st.subheader('1. Placeholder')
-    # st.text('Placeholder')
+    render_cond2(left, right, trials, results, bankroll)
 
 elif option == "Condition 3: X-or-nothing":
     st.header("Condition 3: Multiplier Goal")
