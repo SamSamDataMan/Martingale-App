@@ -16,10 +16,20 @@ def render_option():
     return option
 
 
+house_odds = 0.4736842
+true_flip_odds = 0.5
+odds = house_odds
+
+
 def render_odds():
-    return st.sidebar.selectbox(
+    odds = st.sidebar.selectbox(
         "Choose a Win Probability:", ("House Odds (47.3%)", "True Flip (50/50)")
     )
+    if odds == "House Odds (47.3%)":
+        p_win = house_odds
+    elif odds == "True Flip (50/50)":
+        p_win = true_flip_odds
+    return p_win
 
 
 def render_c1_sidebar():

@@ -13,9 +13,6 @@ from cond2 import render_cond2
 from cond3 import render_cond3
 from conclusions import render_conc
 
-house_odds = 0.4736842
-true_flip_odds = 0.5
-odds = house_odds
 
 option = render_option()
 
@@ -24,12 +21,7 @@ if (
     or option == "Condition 2: Fixed Number of Spins"
     or option == "Condition 3: X-or-nothing"
 ):
-    odds = render_odds()
-
-if odds == "House Odds (47.3%)":
-    p_win = house_odds
-elif odds == "True Flip (50/50)":
-    p_win = true_flip_odds
+    p_win = render_odds()
 
 if option == "Home":
     render_home()
