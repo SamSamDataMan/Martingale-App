@@ -64,7 +64,7 @@ def render_c2_sidebar():
         step=5,
     )
     numSpins = st.sidebar.slider(
-        "4. Select a number of" " spins for each trial:", 10, 10000, 100, step=10
+        "4. Select a number of" " spins for each trial:", 100, 10000, 100, step=10
     )
     return trials, bankroll, startBet, numSpins
 

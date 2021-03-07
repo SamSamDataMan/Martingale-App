@@ -16,14 +16,15 @@ def cond2_header():
 def render_cond2(left, right, trials, results, bankroll):
     winners = [i for i in results if i[-1] > 0]
     losers = [i for i in results if i[-1] < 0]
+    bankrupt = [i for i in results if i[-1] == -1 * bankroll]
     winner_results = [i[-1] for i in winners]
     loser_results = [i[-1] for i in losers]
     total_won = sum(winner_results)
     total_lost = sum(loser_results)
-    x = ["Winners", "Losers"]
-    y = [len(winners), len(losers)]
+    x = ["Winners", "Losers", "Bankrupt"]
+    y = [len(winners), len(losers) - len(bankrupt), len(bankrupt)]
     fig = plt.figure(figsize=(8, 6))
-    ax = plt.bar(x, y, color=["green", "red"])
+    ax = plt.bar(x, y, color=["green", "yellow", "red"])
     right.subheader("Proportion of Winners and Losers")
     plt.title("Figure 2: Proportion of Winners and Losers")
     right.pyplot(fig)
@@ -59,6 +60,11 @@ def render_cond2(left, right, trials, results, bankroll):
         " bankroll."
     )
 
-    # st.header('Takeaways from this condition:')
-    # st.subheader('1. Placeholder')
-    # st.text('Placeholder')
+    st.header("Takeaways From Condition 2")
+    st.subheader("1. Martingaling appears to be successful (until it isn't)")
+    st.text(
+        "Each trial experiences slow and steady profitability tightly grouped around an upward-\n"
+        "sloping trajectory until the trial experiences a ruin or near-ruin scenario. After a \n"
+        "near-ruin scenario, this slow, upward-sloping pattern continues until encoutering ruin\n"
+        "or near-ruin again, and so forth until bankruptcy."
+    )

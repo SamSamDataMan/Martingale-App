@@ -114,7 +114,7 @@ def render_cond1(left, right, trials, results):
         "skew to this distribution as well."
     )
 
-    st.header("Takeaways From This Condition")
+    st.header("Takeaways From Condition 1")
     st.subheader("1. Martingaling appears to be successful (until it isn't)")
     st.text(
         "Each trial experiences slow and steady profitability tightly grouped around an upward-\n"
