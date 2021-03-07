@@ -21,10 +21,10 @@ def spin_til_bust(trials, bankroll, startingBet, p_win, display_container):
     for trial in range(trials):
         trial_result = run_trial(bankroll, startingBet, p_win)
         results_lists.append(trial_result)
-        plt.plot(trial_result, linewidth=1, alpha=0.5)
     x_max = 0
-    for i in results_lists:
-        listMax = len(i)
+    for trial_result in results_lists:
+        plt.plot(trial_result, linewidth=1, alpha=0.5)
+        listMax = len(trial_result)
         if listMax > x_max:
             x_max = listMax
     plt.title("Figure 1: Profit Over Time")
@@ -54,23 +54,21 @@ def run_trial(
     # reset results list & starting balance.
     trial_result = []
     balance = bankroll
+    starting_bet = bet
     # begin new trial.
-    while True:
-        # if subject is bankrupt, game is over.
-        if balance < bet:
-            # end trial by breaking while loop.
-            break
-        # otherwise, begin new martingale cycle.
-        while True:
-            # if current bankroll is sufficient for the next wager, SPIN:
-            if balance >= bet:
-                result = run_spin(p_win, bet)
-                if result < 0:
-                    bet *= 2
-                balance += result
-                trial_result.append(balance - bankroll)
+    while balance > 0:
+        # if current bankroll is sufficient for the next wager, SPIN:
+        if balance >= bet:
+            result = run_spin(p_win, bet)
+            # TODO: Refactor to ternary (one line if else)
+            if result < 0:
+                bet *= 2
             else:
-                break
+                bet = starting_bet
+            balance += result
+            trial_result.append(balance - bankroll)
+        else:
+            bet = starting_bet
     return trial_result
 
 
