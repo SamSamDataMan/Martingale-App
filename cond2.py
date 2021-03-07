@@ -2,6 +2,17 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 
+def cond2_header():
+    st.header("Condition 2: Fixed Number of Spins")
+    st.text(
+        "In this condition we allow each trial to continue for a fixed number of spins or until the\n"
+        "entire bankroll is lost.\n"
+    )
+    left, right = st.beta_columns(2)
+    left.subheader("Fixed Number of Spins")
+    return left, right
+
+
 def render_cond2(left, right, trials, results, bankroll):
     winners = [i for i in results if i[-1] > 0]
     losers = [i for i in results if i[-1] < 0]

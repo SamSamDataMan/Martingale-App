@@ -2,6 +2,17 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 
+def cond3_header():
+    st.header("Condition 3: Multiplier Goal")
+    st.text(
+        "In this condition we allow each trial to continue\n"
+        "until the entire bankroll is lost or a multiplier goal is met.\n"
+    )
+    left, right = st.beta_columns(2)
+    left.subheader("Number of Spins To Goal or Bankrupt")
+    return left, right
+
+
 def render_cond3(left, right, trials, results, bankroll):
     winnerResults = []
     loserResults = []

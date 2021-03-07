@@ -5,6 +5,16 @@ import matplotlib.ticker as mtick
 import matplotlib.pyplot as plt
 
 
+def cond1_header():
+    st.header("Condition 1: Spin Until Bankrupt")
+    st.text(
+        "In this condition we allow each trial to continue until the entire bankroll is lost.\n"
+    )
+    left, right = st.beta_columns(2)
+    left.subheader("Number of Spins Until Bankrupt")
+    return left, right
+
+
 def render_cond1(left, right, trials, results):
     left.subheader("Results")
     left.text(
