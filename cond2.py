@@ -17,22 +17,25 @@ def render_cond2(left, right, trials, results, bankroll):
     plt.title("Figure 2: Proportion of Winners and Losers")
     right.pyplot(fig)
     st.header("Results:")
-    st.text(
-        "The "
-        + str(len(winners))
-        + " winning trials won a total of $"
-        + str(total_won)
-        + " or $"
-        + str(round(total_won / len(winners), 2))
-        + " per winning trial.\n"
-        "The "
-        + str(len(losers))
-        + " losing trials lost a total of $"
-        + str(total_lost)
-        + " or $"
-        + str(round(total_lost / len(losers), 2))
-        + " per losing trial."
-    )
+    if len(winners) != 0:
+        st.text(
+            "The "
+            + str(len(winners))
+            + " winning trials won a total of $"
+            + str(total_won)
+            + " or $"
+            + str(round(total_won / len(winners), 2))
+            + " per winning trial.\n"
+            "The "
+            + str(len(losers))
+            + " losing trials lost a total of $"
+            + str(total_lost)
+            + " or $"
+            + str(round(total_lost / len(losers), 2))
+            + " per losing trial."
+        )
+    else:
+        st.text("There were no winning trials in this experiment.")
     st.text(
         "The total return of all trials in this experiment was $"
         + str(total_won + total_lost)

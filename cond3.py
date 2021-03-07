@@ -25,22 +25,25 @@ def render_cond3(left, right, trials, results, bankroll):
     right.pyplot(fig)
 
     st.header("Results:")
-    st.text(
-        "The "
-        + str(len(winnerResults))
-        + " winning trials won a total of $"
-        + str(total_won_c3)
-        + " or $"
-        + str(round(total_won_c3 / len(winnerResults), 2))
-        + " per winning trial.\n"
-        "The "
-        + str(len(loserResults))
-        + " losing trials won a total of $"
-        + str(total_lost_c3)
-        + " or $"
-        + str(round(total_lost_c3 / len(loserResults), 2))
-        + " per losing trial.\n"
-    )
+    if winnerCount != 0:
+        st.text(
+            "The "
+            + str(len(winnerResults))
+            + " winning trials won a total of $"
+            + str(total_won_c3)
+            + " or $"
+            + str(round(total_won_c3 / len(winnerResults), 2))
+            + " per winning trial.\n"
+            "The "
+            + str(len(loserResults))
+            + " losing trials won a total of $"
+            + str(total_lost_c3)
+            + " or $"
+            + str(round(total_lost_c3 / len(loserResults), 2))
+            + " per losing trial.\n"
+        )
+    else:
+        st.text("There were no winning trials in this experiment.")
     st.text(
         "The total return of all trials in this experiment was $"
         + str(total_won_c3 + total_lost_c3)

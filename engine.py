@@ -124,6 +124,15 @@ def x_num_spins(trials, bankroll, startingBet, p_win, numSpins, display_containe
     plt.grid(b=True, which="major")
     plt.ylabel("Profit ($)")
     plt.xlabel("Spin Count")
+    plt.hlines(
+        (-1 * bankroll),
+        0,
+        numSpins,
+        colors="Red",
+        linestyles="solid",
+        linewidth=2,
+        label="Bankrupt",
+    )
     plt.legend()
     display_container.pyplot(fig)
     return resultsLists
