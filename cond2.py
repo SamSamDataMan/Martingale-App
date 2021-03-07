@@ -61,10 +61,12 @@ def render_cond2(left, right, trials, results, bankroll):
     )
 
     st.header("Takeaways From Condition 2")
-    st.subheader("1. Martingaling appears to be successful (until it isn't)")
+    st.subheader("1. A more ambituous stopping criteria leads to worse results.")
     st.text(
-        "Each trial experiences slow and steady profitability tightly grouped around an upward-\n"
-        "sloping trajectory until the trial experiences a ruin or near-ruin scenario. After a \n"
-        "near-ruin scenario, this slow, upward-sloping pattern continues until encoutering ruin\n"
-        "or near-ruin again, and so forth until bankruptcy."
+        "By examining the results based on longer- or shorter-duration trials, we can see that\n"
+        "the longer a trial is allowed to continue (in terms of number of spins), the worse the\n"
+        "expected results for that trial will be. \n"
     )
+
+    st.subheader("2. Some combination of inputs may show positive expected values.")
+    st.text("")
