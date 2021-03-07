@@ -74,6 +74,8 @@ def render_cond1(left, right, trials, results):
     minn2 = df2["Max Profit"].min()
 
     right.subheader("Peak Profit During Trial")
+
+    # TODO: Refactor plot to own function
     fig = plt.figure()
     plt.title("Figure 2: Max Profit of Each Trial")
     ax = sns.distplot(

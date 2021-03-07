@@ -31,20 +31,11 @@ def render_cond2(left, right, trials, results, bankroll):
     st.header("Results:")
     if len(winners) != 0:
         st.text(
-            "The "
-            + str(len(winners))
-            + " winning trials won a total of $"
-            + str(total_won)
-            + " or $"
-            + str(round(total_won / len(winners), 2))
-            + " per winning trial.\n"
-            "The "
-            + str(len(losers))
-            + " losing trials lost a total of $"
-            + str(total_lost)
-            + " or $"
-            + str(round(total_lost / len(losers), 2))
-            + " per losing trial."
+            f"The {str(len(winners))} winning trials won a total of $ "
+            f"{str(total_won)} or ${str(round(total_won / len(winners), 2))}"
+            f"per winning trial.\nThe {str(len(losers))} The {str(len(losers))}"
+            f" losing trials lost a total of ${str(total_lost)} or $"
+            f"{str(round(total_lost / len(losers), 2))} per losing trial."
         )
     else:
         st.text("There were no winning trials in this experiment.")

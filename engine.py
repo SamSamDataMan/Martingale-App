@@ -16,39 +16,14 @@ def handle_winning_spin(balance, bet):
 def spin_til_bust(trials, bankroll, startingBet, p_win, display_container):
     fig = plt.figure()
     # list containing lists of each trial's results.
-    resultsLists = []
+    results_lists = []
     # iterate through trials.
     for trial in range(trials):
-        # reset results list & starting balance.
-        trialResult = []
-        balance = bankroll
-        # begin new trial.
-        while True:
-            bet = startingBet
-            # if subject is bankrupt, game is over.
-            if balance < bet:
-                # append results to master list.
-                resultsLists.append(trialResult)
-                # end trial by breaking while loop.
-                break
-            # otherwise, begin new martingale cycle.
-            while True:
-                # if current bankroll is sufficient for the next wager, SPIN:
-                if balance >= bet:
-                    # losing spin
-                    if random.random() > p_win:
-                        balance, bet = handle_losing_spin(balance, bet)
-                        trialResult.append(balance - bankroll)
-                    # winning spin
-                    else:
-                        balance = handle_winning_spin(balance, bet)
-                        trialResult.append(balance - bankroll)
-                        break
-                else:
-                    break
-        plt.plot(trialResult, linewidth=1, alpha=0.5)
+        trial_result = run_trial(bankroll, startingBet, p_win)
+        results_lists.append(trial_result)
+        plt.plot(trial_result, linewidth=1, alpha=0.5)
     x_max = 0
-    for i in resultsLists:
+    for i in results_lists:
         listMax = len(i)
         if listMax > x_max:
             x_max = listMax
@@ -68,7 +43,42 @@ def spin_til_bust(trials, bankroll, startingBet, p_win, display_container):
     plt.xlabel("Spin Count")
     plt.grid(b=True, which="major")
     display_container.pyplot(fig)
-    return resultsLists
+    return results_lists
+
+
+def run_trial(
+    bankroll,
+    bet,
+    p_win,
+):
+    # reset results list & starting balance.
+    trial_result = []
+    balance = bankroll
+    # begin new trial.
+    while True:
+        # if subject is bankrupt, game is over.
+        if balance < bet:
+            # end trial by breaking while loop.
+            break
+        # otherwise, begin new martingale cycle.
+        while True:
+            # if current bankroll is sufficient for the next wager, SPIN:
+            if balance >= bet:
+                result = run_spin(p_win, bet)
+                if result < 0:
+                    bet *= 2
+                balance += result
+                trial_result.append(balance - bankroll)
+            else:
+                break
+    return trial_result
+
+
+# pass correct args to run_trial
+# pass correct args to run_spin
+def run_spin(p_win, bet):
+    is_winner = random.random() < p_win
+    return bet if is_winner else -1 * bet
 
 
 def x_num_spins(trials, bankroll, startingBet, p_win, numSpins, display_container):
