@@ -26,6 +26,7 @@ def render_cond1(left, right, trials, results):
     )
 
     # Descriptives for First Plot
+    # TODO: Refactor out to helper function
     spinsToBust = []
     maxProfits = []
     upSpins = 0

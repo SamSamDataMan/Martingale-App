@@ -1,16 +1,16 @@
 from engine import spin_til_bust, x_num_spins, x_or_nothing
-from home import render_home
-from sidebar import (
+from views.home import render_home
+from views.sidebar import (
     render_option,
     render_odds,
     render_c1_sidebar,
     render_c2_sidebar,
     render_c3_sidebar,
 )
-from cond1 import cond1_header, render_cond1
-from cond2 import cond2_header, render_cond2
-from cond3 import cond3_header, render_cond3
-from conclusions import render_conc
+from views.cond1 import cond1_header, render_cond1
+from views.cond2 import cond2_header, render_cond2
+from views.cond3 import cond3_header, render_cond3
+from views.conclusions import render_conc
 
 
 option = render_option()
