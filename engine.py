@@ -99,7 +99,7 @@ def x_num_spins(trials, bankroll, startingBet, p_win, numSpins, display_containe
                 resultsLists.append(trialResult)
                 break
             else:
-                print("New Martingale Cycle #", cycles)
+                pass
             # control sims by number of spins
             while counter <= numSpins:
                 if counter == numSpins:
@@ -120,12 +120,6 @@ def x_num_spins(trials, bankroll, startingBet, p_win, numSpins, display_containe
                         counter += 1
                         break
                 else:
-                    print(
-                        "You're Broke, Current Profit =",
-                        balance - bankroll,
-                        "current bet =",
-                        bet,
-                    )
                     break
         plt.plot(trialResult, linewidth=0.5, alpha=0.5)
     plt.title("Figure 1: Profit Over # of Spins")
