@@ -15,7 +15,7 @@ def render_home():
         "Use the sidebar to the left to navigate through the app, or see below for a brief user\n"
         "guide and explanation of our methodology."
     )
-    if st.checkbox("What Is Martingaling?"):
+    with st.beta_expander("What Is Martingaling?"):
         st.text(
             "Martingaling is a betting strategy which has bettors double "
             "their wager after each \n"
@@ -71,7 +71,7 @@ def render_home():
             "This general pattern of doubling wagers after each sucessive loss and return to a fixed\n"
             'starting wager after each win is called a "martingale" strategy.'
         )
-    if st.checkbox("User Guide"):
+    with st.beta_expander("User Guide"):
         st.header("User Guide")
         st.subheader("Running Your Martingale Experiment:")
         st.text(
@@ -120,7 +120,7 @@ def render_home():
             "criteria based on a profit goal, as represented by a multiple of the starting\n"
             "bankroll. Trials that do not go bankrupt will end once this goal has been reached."
         )
-    if st.checkbox("Methodology"):
+    with st.beta_expander("Methodology"):
         st.header("Methodology")
         st.text(
             "The purpose of this application is to allow users to trivially explore the martingale\n"
