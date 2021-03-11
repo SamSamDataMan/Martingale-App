@@ -13,6 +13,36 @@ def handle_winning_spin(balance, bet):
     return balance
 
 
+def run_trial(bankroll, bet, p_win, numSpins=10000000, multGoal=10000000):
+    # reset results list & starting balance.
+    trial_result = []
+    balance = bankroll
+    starting_bet = bet
+    counter = 0
+    stop_goal = balance * multGoal
+    # begin new trial.
+    while balance > 0 and balance < stop_goal and counter < numSpins:
+        # if current bankroll is sufficient for the next wager, SPIN:
+        if balance >= bet:
+            result = run_spin(p_win, bet)
+            counter += 1
+            # TODO: Refactor to ternary (one line if else)
+            if result < 0:
+                bet *= 2
+            else:
+                bet = starting_bet
+            balance += result
+            trial_result.append(balance - bankroll)
+        else:
+            bet = starting_bet
+    return trial_result
+
+
+def run_spin(p_win, bet):
+    is_winner = random.random() < p_win
+    return bet if is_winner else -1 * bet
+
+
 def spin_til_bust(trials, bankroll, startingBet, p_win, display_container):
     fig = plt.figure()
     # list containing lists of each trial's results.
@@ -46,82 +76,19 @@ def spin_til_bust(trials, bankroll, startingBet, p_win, display_container):
     return results_lists
 
 
-def run_trial(
-    bankroll,
-    bet,
-    p_win,
-):
-    # reset results list & starting balance.
-    trial_result = []
-    balance = bankroll
-    starting_bet = bet
-    # begin new trial.
-    while balance > 0:
-        # if current bankroll is sufficient for the next wager, SPIN:
-        if balance >= bet:
-            result = run_spin(p_win, bet)
-            # TODO: Refactor to ternary (one line if else)
-            if result < 0:
-                bet *= 2
-            else:
-                bet = starting_bet
-            balance += result
-            trial_result.append(balance - bankroll)
-        else:
-            bet = starting_bet
-    return trial_result
-
-
-# pass correct args to run_trial
-# pass correct args to run_spin
-def run_spin(p_win, bet):
-    is_winner = random.random() < p_win
-    return bet if is_winner else -1 * bet
-
-
 def x_num_spins(trials, bankroll, startingBet, p_win, numSpins, display_container):
     fig = plt.figure()
     resultsLists = []
     # number of subjects to repeat trial for
     for trial in range(trials):
-        trialResult = []
-        balance = bankroll
-        cycles = 1
-        spins = 1
-        counter = 1
-        # New Martingale Cycle
-        while counter <= numSpins:
-            if counter == numSpins:
-                resultsLists.append(trialResult)
-                break
-            bet = startingBet
-            if balance < bet:
-                resultsLists.append(trialResult)
-                break
-            else:
-                pass
-            # control sims by number of spins
-            while counter <= numSpins:
-                if counter == numSpins:
-                    break
-                if balance >= bet:
-                    # losing spin
-                    if random.random() > p_win:
-                        balance, bet = handle_losing_spin(balance, bet)
-                        trialResult.append(balance - bankroll)
-                        spins += 1
-                        counter += 1
-                    # winning spin
-                    else:
-                        balance = handle_winning_spin(balance, bet)
-                        trialResult.append(balance - bankroll)
-                        spins += 1
-                        cycles += 1
-                        counter += 1
-                        break
-                else:
-                    break
-        plt.plot(trialResult, linewidth=0.5, alpha=0.5)
+        trialResult = run_trial(bankroll, startingBet, p_win, numSpins)
+        resultsLists.append(trialResult)
+    x_max = 0
+    for trial_result in resultsLists:
+        plt.plot(trial_result, linewidth=0.5, alpha=0.5)
+        listMax = len(trial_result)
+        if listMax > x_max:
+            x_max = listMax
     plt.title("Figure 1: Profit Over # of Spins")
     plt.grid(b=True, which="major")
     plt.ylabel("Profit ($)")
@@ -129,7 +96,7 @@ def x_num_spins(trials, bankroll, startingBet, p_win, numSpins, display_containe
     plt.hlines(
         (-1 * bankroll),
         0,
-        numSpins,
+        x_max,
         colors="Red",
         linestyles="solid",
         linewidth=2,
