@@ -142,7 +142,7 @@ def render_cond1(left, right, trials, results):
         'Intuitively, removing a "house edge" from the game results in increases the expected\n'
         'longevity of each trial. In a "fair" game with 50/50 odds, we see a wider distribution of\n'
         "outcomes, but the fact remains that each trial will eventually go bankrupt by following\n"
-        "this strategy. As a collolary to the first takeaway, martingaling will only be profitable\n"
+        "this strategy. As a corollary to the first takeaway, martingaling will only be profitable\n"
         "in a game that is already profitable without the martingale strategy."
     )
 
