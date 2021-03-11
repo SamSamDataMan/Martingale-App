@@ -124,12 +124,11 @@ def render_home():
         st.header("Methodology")
         st.text(
             "The purpose of this application is to allow users to trivially explore the martingale\n"
-            "strategy under various conditions and inputs. Using repeated stochastic simulation, we\n"
-            "model the distribution of results of the martingale strategy within varied experimental\n"
+            "strategy under various conditions and inputs. Using Monte Carlo simulation, we model\n"
+            "the distribution of results of the martingale strategy within varied experimental\n"
             "conditions and subject to the user-defined model inputs described above. By inputting\n"
             "various assumptions, users are able to quickly run and re-run related experiments and \n"
-            "examine the impact of those assumptions on the distribution of results the strategy will\n"
-            "produce.\n"
+            "examine the impact of those assumptions on the results the specified strategy yields.\n"
         )
         st.subheader("Condition 1 - Spin Until Bankrupt")
         st.text(
@@ -137,7 +136,8 @@ def render_home():
             "is allowed to martingale until bankruptcy. This condition is largely theoretical, in that\n"
             "few bettors undertake a strategy intent on eventually going bankrupt. That aside, this\n"
             "condition allows us to best understand the full distribution of outcomes associated with\n"
-            "a given martingale approach.\n"
+            "a given martingale approach, particularly the duration of trials until bankruptcy and\n"
+            "the peak profits of each trial."
         )
 
         st.subheader("Condition 2 - Set Number of Spins")
@@ -146,13 +146,16 @@ def render_home():
             "as defined by the user (via an an additional slider). This condition implements a\n"
             "stopping criteria which is intended to act as a real-world constraint (e.g. 250 spins\n"
             "may be used to represent a full day of martingaling at a casino roulette wheel -\n"
-            "assuming something on the order of 40 spins per hour."
+            "assuming ~40 spins/ hour. This condition allows us to approximate the expected value of\n"
+            "the specified strategy and to observe the associated proportion of winning, losing, and\n"
+            "bankrupt trials."
         )
 
         st.subheader("Condition 3 - Spin Until Profit Goal")
         st.text(
             "Similar to condition two, this condition attempts to implement a real-world stopping\n"
-            "criteria, in this case a martingaler who is attempting to achieve some profit goal\n"
-            "before stopping (e.g. the bettor wants to double/triple/10x their bankroll and then\n"
-            "stop).\n"
+            "criteria, in this case a martingaler who is attempting to achieve some profit goal before\n"
+            "stopping (e.g. the bettor wants to double/triple/10x their bankroll and then stop). This\n"
+            "condition allows us to approximate the expected value of the specified strategy and to \n"
+            "observe the proportion of winners and losers as well as the trial duration distribution.\n"
         )
