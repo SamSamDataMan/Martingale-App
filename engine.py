@@ -78,13 +78,13 @@ def spin_til_bust(trials, bankroll, startingBet, p_win, display_container):
 
 def x_num_spins(trials, bankroll, startingBet, p_win, numSpins, display_container):
     fig = plt.figure()
-    resultsLists = []
+    results_lists = []
     # number of subjects to repeat trial for
     for trial in range(trials):
-        trialResult = run_trial(bankroll, startingBet, p_win, numSpins)
-        resultsLists.append(trialResult)
+        trial_result = run_trial(bankroll, startingBet, p_win, numSpins)
+        results_lists.append(trial_result)
     x_max = 0
-    for trial_result in resultsLists:
+    for trial_result in results_lists:
         plt.plot(trial_result, linewidth=0.5, alpha=0.5)
         listMax = len(trial_result)
         if listMax > x_max:
@@ -104,19 +104,17 @@ def x_num_spins(trials, bankroll, startingBet, p_win, numSpins, display_containe
     )
     plt.legend()
     display_container.pyplot(fig)
-    return resultsLists
+    return results_lists
 
 
-def x_or_nothing(
-    trials, bankroll, startingBet, p_win, multGoal: int, display_container
-):
+def x_or_nothing(trials, bankroll, startingBet, p_win, multGoal: int, display_container):
     fig = plt.figure()
     # list containing lists of each trial's results.
-    resultsLists = []
+    results_lists = []
     # iterate through trials.
     for trial in range(trials):
         # reset results list & starting balance.
-        trialResult = []
+        trial_result = []
         balance = bankroll
         # begin new trial.
         while True:
@@ -124,7 +122,7 @@ def x_or_nothing(
             # if subject is bankrupt, game is over.
             if balance < bet or balance >= bankroll * multGoal:
                 # append results to master list.
-                resultsLists.append(trialResult)
+                results_lists.append(trial_result)
                 # end trial by breaking while loop.
                 break
             # otherwise, begin new martingale cycle.
@@ -134,17 +132,17 @@ def x_or_nothing(
                     # losing spin
                     if random.random() > p_win:
                         balance, bet = handle_losing_spin(balance, bet)
-                        trialResult.append(balance - bankroll)
+                        trial_result.append(balance - bankroll)
                     # winning spin
                     else:
                         balance = handle_winning_spin(balance, bet)
-                        trialResult.append(balance - bankroll)
+                        trial_result.append(balance - bankroll)
                         break
                 else:
                     break
-        plt.plot(trialResult, linewidth=1, alpha=0.5)
+        plt.plot(trial_result, linewidth=1, alpha=0.5)
     x_max = 0
-    for i in resultsLists:
+    for i in results_lists:
         listMax = len(i)
         if listMax > x_max:
             x_max = listMax
@@ -173,4 +171,4 @@ def x_or_nothing(
     plt.xlabel("Spin Count")
     plt.grid(b=True, which="major")
     display_container.pyplot(fig)
-    return resultsLists
+    return results_lists
