@@ -107,43 +107,18 @@ def x_num_spins(trials, bankroll, startingBet, p_win, numSpins, display_containe
     return results_lists
 
 
-def x_or_nothing(trials, bankroll, startingBet, p_win, multGoal: int, display_container):
+def x_or_nothing(trials, bankroll, startingBet, p_win, multGoal: int, display_container, numSpins=10000000,):
     fig = plt.figure()
     # list containing lists of each trial's results.
     results_lists = []
     # iterate through trials.
     for trial in range(trials):
-        # reset results list & starting balance.
-        trial_result = []
-        balance = bankroll
-        # begin new trial.
-        while True:
-            bet = startingBet
-            # if subject is bankrupt, game is over.
-            if balance < bet or balance >= bankroll * multGoal:
-                # append results to master list.
-                results_lists.append(trial_result)
-                # end trial by breaking while loop.
-                break
-            # otherwise, begin new martingale cycle.
-            while True:
-                # if current bankroll is sufficient for the next wager, SPIN:
-                if balance >= bet:
-                    # losing spin
-                    if random.random() > p_win:
-                        balance, bet = handle_losing_spin(balance, bet)
-                        trial_result.append(balance - bankroll)
-                    # winning spin
-                    else:
-                        balance = handle_winning_spin(balance, bet)
-                        trial_result.append(balance - bankroll)
-                        break
-                else:
-                    break
-        plt.plot(trial_result, linewidth=1, alpha=0.5)
+        trial_result = run_trial(bankroll, startingBet, p_win, numSpins, multGoal)
+        results_lists.append(trial_result)
     x_max = 0
-    for i in results_lists:
-        listMax = len(i)
+    for trial_result in results_lists:
+        plt.plot(trial_result, linewidth=0.5, alpha=0.5)
+        listMax = len(trial_result)
         if listMax > x_max:
             x_max = listMax
     plt.title("Figure 1: Profit Over Time")
