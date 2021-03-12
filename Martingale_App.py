@@ -27,9 +27,13 @@ if option == "Home":
 
 elif option == "Condition 1: Spin Until Bankrupt":
     left, right = cond1_header()
+    print('Here1')
     trials, bankroll, startBet = render_c1_sidebar()
+    print('Here2')
     results = spin_til_bust(trials, bankroll, startBet, p_win, display_container=left)
+    print('Here3')
     render_cond1(left, right, trials, results)
+    print('Here4')
 
 elif option == "Condition 2: Fixed Number of Spins":
     left, right = cond2_header()
