@@ -19,20 +19,25 @@ def run_trial(bankroll, bet, p_win, numSpins=10000000, multGoal=10000000):
     balance = bankroll
     starting_bet = bet
     counter = 0
-    stop_goal = balance * multGoal
     # begin new trial.
-    while balance > 0 and balance < stop_goal and counter < numSpins:
+    while balance > 0 and counter < numSpins and balance < multGoal:
         # if current bankroll is sufficient for the next wager, SPIN:
         if balance >= bet:
             result = run_spin(p_win, bet)
             counter += 1
+            print("Spin Count", counter, "balance =", balance)
             # TODO: Refactor to ternary (one line if else)
             if result < 0:
                 bet *= 2
+                print("lose")
             else:
                 bet = starting_bet
+                print("win")
             balance += result
+            print('new balance=', balance)
             trial_result.append(balance - bankroll)
+        elif balance < starting_bet:
+            bet = balance
         else:
             bet = starting_bet
     return trial_result
@@ -79,6 +84,7 @@ def spin_til_bust(trials, bankroll, startingBet, p_win, display_container):
 def x_num_spins(trials, bankroll, startingBet, p_win, numSpins, display_container):
     fig = plt.figure()
     results_lists = []
+    spin_count = numSpins
     # number of subjects to repeat trial for
     for trial in range(trials):
         trial_result = run_trial(bankroll, startingBet, p_win, numSpins)
@@ -107,14 +113,17 @@ def x_num_spins(trials, bankroll, startingBet, p_win, numSpins, display_containe
     return results_lists
 
 
-def x_or_nothing(trials, bankroll, startingBet, p_win, multGoal: int, display_container, numSpins=10000000,):
+def x_or_nothing(trials, bankroll, startingBet, p_win, multGoal: int, display_container):
     fig = plt.figure()
+    tcount = 1
     # list containing lists of each trial's results.
     results_lists = []
     # iterate through trials.
     for trial in range(trials):
-        trial_result = run_trial(bankroll, startingBet, p_win, numSpins, multGoal)
+        trial_result = run_trial(bankroll, startingBet, p_win, multGoal)
         results_lists.append(trial_result)
+        print("New Trial, #", tcount)
+        tcount += 1
     x_max = 0
     for trial_result in results_lists:
         plt.plot(trial_result, linewidth=0.5, alpha=0.5)
@@ -123,7 +132,7 @@ def x_or_nothing(trials, bankroll, startingBet, p_win, multGoal: int, display_co
             x_max = listMax
     plt.title("Figure 1: Profit Over Time")
     plt.ylabel("Profit ($)")
-    plt.ylim(-1.2 * bankroll)
+    plt.ylim(-1.2 * bankroll, bankroll*multGoal)
     plt.hlines(
         (-1 * bankroll),
         0,
