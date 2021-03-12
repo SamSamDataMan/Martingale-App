@@ -12,13 +12,10 @@ from views.cond2 import cond2_header, render_cond2
 from views.cond3 import cond3_header, render_cond3
 from views.conclusions import render_conc
 
-
 option = render_option()
 
 if (
-    option == "Condition 1: Spin Until Bankrupt"
-    or option == "Condition 2: Fixed Number of Spins"
-    or option == "Condition 3: X-or-nothing"
+    option == "Condition 1: Spin Until Bankrupt" or option == "Condition 2: Fixed Number of Spins" or option == "Condition 3: X-or-nothing"
 ):
     p_win = render_odds()
 
