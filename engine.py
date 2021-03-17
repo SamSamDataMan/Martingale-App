@@ -130,7 +130,7 @@ def x_or_nothing(trials, bankroll, startingBet, p_win, multGoal: int, display_co
             x_max = listMax
     plt.title("Figure 1: Profit Over Time")
     plt.ylabel("Profit ($)")
-    plt.ylim(-1.2 * bankroll, bankroll * multGoal)
+    plt.ylim(-1.2 * bankroll, (bankroll * multGoal) - (0.9 * bankroll))
     plt.hlines(
         (-1 * bankroll),
         0,
