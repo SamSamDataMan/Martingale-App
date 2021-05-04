@@ -4,6 +4,8 @@ import streamlit as st
 
 
 def render_home():
+    st.title("Martingale Strategy Analysis")
+    st.text("Developed by Samuel King")
     st.header("Introduction, User-Guide, & Methodology")
     st.text(
         "This application allows users to model the results of martingale gambling strategies.\n"
