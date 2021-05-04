@@ -53,7 +53,7 @@ def render_cond2(left, right, trials, results, bankroll):
 
     st.header("Takeaways From Condition 2")
 
-    st.subheader("1. A more ambituous stopping criteria leads to worse results.")
+    st.subheader("1. A more ambitious stopping criteria leads to worse results.")
     st.text(
         "By examining the results based on longer- or shorter-duration trials, we can see that\n"
         "the longer a trial is allowed to continue (in terms of number of spins), the worse the\n"
@@ -72,7 +72,8 @@ def render_cond2(left, right, trials, results, bankroll):
     )
 
     st.subheader(
-        "3. A large bankroll-to-starting wager ratio improves the proportion of winners but does not improve expected value."
+        "3. A large bankroll-to-starting wager ratio improves the proportion of winners but does not improve expected"
+        "value."
     )
     st.text(
         "Over a given number of spins, it is much less likely to go bankrupt with a large bankroll\n"

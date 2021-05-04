@@ -139,10 +139,10 @@ def render_cond1(left, right, trials, results):
         '3. Adjusting "Win Probability" to true 50/50 odds massively increases variance of results'
     )
     st.text(
-        'Intuitively, removing a "house edge" from the game results in increases the expected\n'
-        'longevity of each trial. In a "fair" game with 50/50 odds, we see a wider distribution of\n'
-        "outcomes, but the fact remains that each trial will eventually go bankrupt by following\n"
-        "this strategy. As a corollary to the first takeaway, martingaling will only be profitable\n"
+        'Intuitively, removing a "house edge" from the game increases the expected longevity of\n'
+        'each trial. In a "fair" game with 50/50 odds, we see a wider distribution of outcomes,\n'
+        "but the fact remains that each trial will eventually go bankrupt by following this\n"
+        "strategy. As a corollary to the first takeaway, martingaling will only be profitable\n"
         "in a game that is already profitable without the martingale strategy."
     )
 
