@@ -8,7 +8,7 @@ def cond2_header():
         "In this condition we allow each trial to continue for a fixed number of spins or until the\n"
         "entire bankroll is lost.\n"
     )
-    left, right = st.beta_columns(2)
+    left, right = st.columns(2)
     left.subheader("Fixed Number of Spins")
     return left, right
 

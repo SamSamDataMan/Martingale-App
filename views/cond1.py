@@ -10,7 +10,7 @@ def cond1_header():
     st.text(
         "In this condition we allow each trial to continue until the entire bankroll is lost.\n"
     )
-    left, right = st.beta_columns(2)
+    left, right = st.columns(2)
     left.subheader("Number of Spins Until Bankrupt")
     return left, right
 

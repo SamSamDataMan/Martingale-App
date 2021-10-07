@@ -8,7 +8,7 @@ def cond3_header():
         "In this condition we allow each trial to continue\n"
         "until the entire bankroll is lost or a multiplier goal is met.\n"
     )
-    left, right = st.beta_columns(2)
+    left, right = st.columns(2)
     left.subheader("Number of Spins To Goal or Bankrupt")
     return left, right
 
