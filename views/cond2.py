@@ -25,8 +25,8 @@ def render_cond2(left, right, trials, results, bankroll):
     y = [len(winners), len(losers) - len(bankrupt), len(bankrupt)]
     fig = plt.figure(figsize=(8, 6))
     ax = plt.bar(x, y, color=["green", "yellow", "red"])
-    right.subheader("Proportion of Winners and Losers")
-    plt.title("Figure 2: Proportion of Winners and Losers")
+    right.subheader("Count of Winners and Losers")
+    plt.title("Figure 2: Count of Winners and Losers")
     right.pyplot(fig)
     st.header("Results:")
     if len(winners) != 0:

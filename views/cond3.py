@@ -9,7 +9,7 @@ def cond3_header():
         "until the entire bankroll is lost or a multiplier goal is met.\n"
     )
     left, right = st.columns(2)
-    left.subheader("Number of Spins To Goal or Bankrupt")
+    left.subheader("Spins to Goal or Bankrupt")
     return left, right
 
 
@@ -31,8 +31,8 @@ def render_cond3(left, right, trials, results, bankroll):
     y = [winnerCount, loserCount]
     fig = plt.figure(figsize=(8, 6))
     ax = plt.bar(x, y, color=["green", "red"])
-    right.subheader("Proportion of Winners and Losers")
-    plt.title("Figure 2: Proportion of Winners and Losers")
+    right.subheader("Count of Winners and Losers")
+    plt.title("Figure 2: Count of Winners and Losers")
     right.pyplot(fig)
 
     st.header("Results:")
