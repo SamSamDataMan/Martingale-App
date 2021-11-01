@@ -7,7 +7,7 @@ def render_home():
     st.title("Martingale Strategy Analysis")
     st.text(
         "Developed by Samuel King\n"
-        " - https://github.com/SamSamDataMan\n"
+        " - www.github.com/SamSamDataMan\n"
     )
     st.header("Introduction, User-Guide, & Methodology")
     st.text(
